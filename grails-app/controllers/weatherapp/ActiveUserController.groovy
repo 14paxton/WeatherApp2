@@ -22,13 +22,16 @@ class ActiveUserController {
             redirect(controller: "AdminDashboard")
         }
 
-        def x = Country.findAll()
+        def countryNameList = Country.listOrderByCountryName().collect {it.countryName}
 
-        def y = x.size()
+        def cityNameList = servletContext.cities
 
 
 
-        [locations: locations, currentUser: currentUser, countries: x , size: y]
+        def y = countryNameList.size()
+
+
+        [locations: locations, currentUser: currentUser, countries: countryNameList , size: y]
 
     }
 

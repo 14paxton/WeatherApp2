@@ -5,16 +5,16 @@ package weatherapp
 class City {
 
 
-    def city_name
-    def country_name
-    def continent
-    def goname_id
+    String city_name
+    Integer country_name
+    String continent
+    Long goname_id
 
 
     static belongsTo = [country: Country]
     static constraints = {
 
-        id name: 'id'
+
 
     }
 

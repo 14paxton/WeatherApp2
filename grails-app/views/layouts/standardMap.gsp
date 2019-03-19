@@ -28,32 +28,7 @@
     <g:layoutHead/>
 </head>
 <body>
-<!-- start header_top -->
 
-
-
-
-
-<div class="header">
-
-    <div class="container">
-        <sec:ifNotLoggedIn>
-            <div class="header-text">
-                <h1>My Weather</h1>
-                <h2>An Elaborate Way To Check The Weather</h2>
-                <p>Please sign up so we can track your usage</p>
-                <div class="banner_btn">
-                    <a class="nav-link" href="${createLink(controller: 'signUp', action: 'join')}">Sign up</a>
-                </div>
-            </div>
-        </sec:ifNotLoggedIn>
-        <div class="header-arrow">
-            <a href="#menu" class="class scroll"><span> </span </a>
-        </div>
-    </div>
-</div>
-
-<!-- end header_top -->
 <!-- start header_bottom -->
 <div class="header-bottom">
     <div class="container">
@@ -66,31 +41,18 @@
 <div class="menu" id="menu">
     <div class="container">
         <div class="logo">
-            <sec:ifLoggedIn>
-                <a href="/ActiveUser/index"><asset:image src="weathermini.png" width="80" height="80" alt="home"/></a>
-            </sec:ifLoggedIn>
-            <sec:ifNotLoggedIn>
-                <a  href="/#"><asset:image src="weathermini.png" width="80" height="80" alt="home"/></a>
-            </sec:ifNotLoggedIn>
+
+                <a href="/ActiveUser/index"><asset:image src="weatherLogo2.PNG" width="80" height="80" alt="home"/></a>
 
         </div>
         <div class="h_menu4"><!-- start h_menu4 -->
             <a class="toggleMenu" href="#">Menu</a>
             <ul class="nav">
-                <sec:ifNotLoggedIn>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${createLink(controller: 'signUp', action: 'join')}">Sign up</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="${createLink(controller: 'login', action: 'auth')}">Login</a>
-                    </li>
-                </sec:ifNotLoggedIn>
-                <sec:ifLoggedIn>
 
                     <li class="nav-item">
                         <a class="nav-link" href="${createLink(controller: 'logoff')}">Logout</a>
                     </li>
-                </sec:ifLoggedIn>
+
             </ul>
             <script type="text/javascript" src="js/nav.js"></script>
         </div><!-- end h_menu4 -->
@@ -103,6 +65,7 @@
 
 
 <div class="main">
+    <iframe width="100%" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=United+Kingdom&amp;aq=0&amp;oq=un&amp;sll=37.0625,-95.677068&amp;sspn=48.956293,107.138672&amp;ie=UTF8&amp;hq=&amp;hnear=United+Kingdom&amp;ll=55.378051,-3.435973&amp;spn=135.795411,68.554687&amp;t=m&amp;z=2&amp;output=embed"> </iframe><br /><small><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=United+Kingdom&amp;aq=0&amp;oq=un&amp;sll=37.0625,-95.677068&amp;sspn=48.956293,107.138672&amp;ie=UTF8&amp;hq=&amp;hnear=United+Kingdom&amp;ll=55.378051,-3.435973&amp;spn=135.795411,68.554687&amp;t=m&amp;z=2" style="color:#666;font-size:12px;text-align:left"> </a></small>
     <div class="container">
         <div class="jumbotron">
             <g:layoutBody/>

@@ -62,7 +62,7 @@ grails:
               - application/xml
     urlmapping:
         cache:
-            maxsize: 1000
+            maxsize: 300000
     controllers:
         defaultScope: singleton
     converters:
@@ -85,9 +85,10 @@ endpoints:
 ---
 hibernate:
     cache:
-        queries: false
+        queries: true
         use_second_level_cache: true
-        use_query_cache: false
+        use_query_cache: true
+        format_sql: true
 dataSource:
     pooled: true
     jmxExport: true
@@ -106,6 +107,7 @@ environments:
             driverClassName: com.mysql.jdbc.Driver
             username: root
             password: 'computer'
+            logSql: true
 
     test:
         dataSource:

@@ -8,7 +8,7 @@ class Country {
 
 
 
-    def countryName
+    String countryName
 
 
 
@@ -25,7 +25,6 @@ class Country {
 
         cache: true
 
-        countryName column: 'country_name'
 
 
     }

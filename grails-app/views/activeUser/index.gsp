@@ -1,19 +1,11 @@
 <!doctype html>
 <html>
 <head>
-    <meta name="layout" content="standard"/>
+    <meta name="layout" content="standardMap"/>
     <title>YourWeather</title>
 </head>
 <body>
 
-
-
-
-<div class="svg" role="presentation">
-    <div class="grails-logo-container">
-        <asset:image src="weatherLogo2.PNG" class="grails-logo"/>
-    </div>
-</div>
 
 <div id="content" role="main">
     <section class="row colset-2-its">
@@ -24,20 +16,7 @@
 
 
             
-            %{--<g:select name="country.choice" from="${countries}" optionValue="country_name"/>--}%
-
-
-
-            <f:table collection="${countries}" />
-
-            <div class="pagination">
-                <g:paginate total="${size ?: 0}" />
-            </div>
-        </div>
-
-
-        </div>
-
+            <g:select name="country.choice" from="${countries}"/>
 
 
 
