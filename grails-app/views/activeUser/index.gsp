@@ -22,17 +22,19 @@
 
             
 
-
+            <g:if test="${countries}">
             <g:form controller="activeUser" action="getCities">
                 <g:select name="countryChoice" from="${countries}"  noSelection="${['null':'Select One...']}" onchange="submit()" />
 
             </g:form>
+            </g:if>
 
+            <g:if test="${cityNames}">
             <g:form controller="activeUser" action="getCities">
                 <g:select name="city.choice" from="${cityNames}"  noSelection="${['null':'Select One...']}" onchange="submit()" />
 
             </g:form>
-
+            </g:if>
 
 
 

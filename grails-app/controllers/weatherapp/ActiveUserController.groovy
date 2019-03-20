@@ -65,11 +65,11 @@ class ActiveUserController {
 
         def cont = Country.findByCountryName(params.countryChoice)
 
-        def x = cityNameList.find{y -> y.country == {cont}}
+       // def x = cityNameList.findAll {y -> y.country == {cont}}
 
-        def matchingCities = City.findAllByCountry(cont)
+        def matchingCities = City.findAllByCountry(cont).collect {it.cityName}
 
-        render(view: "/activeUser/index", model: [currentUser: currentUser], cityNames: matchingCities)
+        render(view: "/activeUser/index", model: [currentUser: currentUser  , cityNames: matchingCities])
 
 
 

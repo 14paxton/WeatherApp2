@@ -11,9 +11,9 @@ class BootStrap {
 
     def init = { servletContext ->
 
-        def x = City.findAll()
 
-        servletContext.cities = City.findAll()
+
+        //servletContext.cities = City.findAll()
 
 
 
