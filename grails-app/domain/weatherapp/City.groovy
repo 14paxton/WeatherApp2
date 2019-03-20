@@ -5,10 +5,9 @@ package weatherapp
 class City {
 
 
-    String city_name
-    Integer country_name
+    String cityName
     String continent
-    Long goname_id
+    Long geonameID
 
 
     static belongsTo = [country: Country]
@@ -24,6 +23,7 @@ class City {
 
 
         cache: true
+        country lazy: false
 
 
     }

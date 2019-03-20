@@ -3,6 +3,11 @@
 <head>
     <meta name="layout" content="standardMap"/>
     <title>YourWeather</title>
+    <asset:javascript src="application.js"/>
+    <asset:stylesheet src="application.css"/>
+
+
+
 </head>
 <body>
 
@@ -16,9 +21,17 @@
 
 
             
-            <g:select name="country.choice" from="${countries}"/>
 
 
+            <g:form controller="activeUser" action="getCities">
+                <g:select name="countryChoice" from="${countries}"  noSelection="${['null':'Select One...']}" onchange="submit()" />
+
+            </g:form>
+
+            <g:form controller="activeUser" action="getCities">
+                <g:select name="city.choice" from="${cityNames}"  noSelection="${['null':'Select One...']}" onchange="submit()" />
+
+            </g:form>
 
 
 

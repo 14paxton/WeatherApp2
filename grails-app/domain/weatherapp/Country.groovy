@@ -1,9 +1,6 @@
 package weatherapp
 
-import groovy.transform.ToString
 
-
-@ToString
 class Country {
 
 
@@ -24,6 +21,7 @@ class Country {
     static mapping = {
 
         cache: true
+
 
 
 

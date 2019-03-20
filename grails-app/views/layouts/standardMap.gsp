@@ -24,6 +24,8 @@
     <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="js/jquery.contentcarousel.js"></script>
     <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- //grid-slider -->
     <g:layoutHead/>
 </head>

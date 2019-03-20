@@ -13,6 +13,11 @@ class CitySpec extends Specification implements DomainUnitTest<City> {
 
     void "test something"() {
         expect:"fix me"
-            true == false
+
+
+        http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=097e124b838ecac32ee6299a03694e0d
+
+
+
     }
 }
