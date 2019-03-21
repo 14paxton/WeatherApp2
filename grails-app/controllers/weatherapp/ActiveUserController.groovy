@@ -2,6 +2,10 @@ package weatherapp
 
 import org.springframework.security.access.annotation.Secured
 import grails.plugin.springsecurity.SpringSecurityUtils
+import groovy.transform.CompileStatic
+import openweathermap.CurrentWeather
+import openweathermap.OpenweathermapService
+import openweathermap.Unit
 import app.admin.security.*
 
 
@@ -9,6 +13,7 @@ import app.admin.security.*
 class ActiveUserController {
 
     def springSecurityService
+    OpenweathermapService openweathermapService
 
     def index() {
 
@@ -61,13 +66,16 @@ class ActiveUserController {
 
         def currentUser = springSecurityService.currentUser
 
-        def cityNameList = servletContext.cities
+       // def cityNameList = servletContext.cities
 
         def cont = Country.findByCountryName(params.countryChoice)
 
        // def x = cityNameList.findAll {y -> y.country == {cont}}
 
-        def matchingCities = City.findAllByCountry(cont).collect {it.cityName}
+
+
+        def matchingCities = City.findAllByCountry(cont)
+
 
         render(view: "/activeUser/index", model: [currentUser: currentUser  , cityNames: matchingCities])
 
@@ -75,7 +83,22 @@ class ActiveUserController {
 
     }
 
+    def showWeather() {
 
+        def currentUser = springSecurityService.currentUser
+
+        CurrentWeather currentWeather = openweathermapService.currentWeather(params.cityChoice)
+
+
+        render(view: "/activeUser/index", model: [currentUser: currentUser  ,currentWeather: currentWeather, ])
+
+    }
+
+    def demo(String unit) {
+        Unit unitEnum = Unit.unitWithString(unit)
+        CurrentWeather currentWeather = openweathermapService.currentWeather(unitEnum)
+        [currentWeather: currentWeather, unit: unitEnum]
+    }
 
 
 }

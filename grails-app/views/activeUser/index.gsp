@@ -24,17 +24,29 @@
 
             <g:if test="${countries}">
             <g:form controller="activeUser" action="getCities">
-                <g:select name="countryChoice" from="${countries}"  noSelection="${['null':'Select One...']}" onchange="submit()" />
+                <g:select name="countryChoice" from="${countries}"  noSelection="${['null':'Choose your country...']}" onchange="submit()" />
 
             </g:form>
             </g:if>
 
             <g:if test="${cityNames}">
-            <g:form controller="activeUser" action="getCities">
-                <g:select name="city.choice" from="${cityNames}"  noSelection="${['null':'Select One...']}" onchange="submit()" />
+            <g:form controller="activeUser" action="showWeather">
+                <g:select name="cityChoice" from="${cityNames}" noSelection="${['null':'Choose your city...']}" optionKey="geonameID" optionValue="cityName"
+                           onchange="submit()" />
 
             </g:form>
             </g:if>
+            <g:if test="${currentWeather}">
+                <g:each in="${currentWeather.weatherList}" var="weather">
+                    <div class="weatherBlock">
+                        <h2><b>${currentWeather.cityName}</b></h2>
+                        <h3>${currentWeather.main?.temperature}</h3>
+                        <openweather:image icon="${weather.icon}"/>
+                        <h4>${weather.description}</h4>
+                    </div>
+                </g:each>
+            </g:if>
+
 
 
 

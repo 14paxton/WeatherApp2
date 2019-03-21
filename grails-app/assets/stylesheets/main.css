@@ -592,3 +592,12 @@ img.grails-logo {
     height:340px;
     margin-top:-10px;
 }
+
+.weatherBlock {
+    width: 150px;
+    height: 200px;
+    margin: 10px auto;
+    text-align: center;
+    border: 1px solid #c0d3db;
+    float: left;
+}
