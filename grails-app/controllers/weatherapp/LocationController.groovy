@@ -1,8 +1,11 @@
 package weatherapp
 
 import grails.validation.ValidationException
+import org.springframework.security.access.annotation.Secured
+
 import static org.springframework.http.HttpStatus.*
 
+@Secured(['ROLE_USER', 'ROLE_ADMIN'])
 class LocationController {
 
     LocationService locationService
@@ -23,6 +26,8 @@ class LocationController {
     }
 
     def save(Location location) {
+
+        City x = params.city
         if (location == null) {
             notFound()
             return

@@ -87,12 +87,30 @@ class ActiveUserController {
 
         def currentUser = springSecurityService.currentUser
 
-        CurrentWeather currentWeather = openweathermapService.currentWeather(params.cityChoice)
 
 
-        render(view: "/activeUser/index", model: [currentUser: currentUser  ,currentWeather: currentWeather, ])
+        def values = openweathermapService.currentWeather(Long.valueOf(params.cityChoice))
+
+        CurrentWeather currentWeather = values["weatherData"]
+
+        Location currentLocation = values["location"]
+        currentLocation.city = City.findByGeonameID(Long.valueOf(params.cityChoice))
+        currentLocation.user = currentUser
+
+
+        render(view: "/activeUser/index", model: [currentUser: currentUser  ,currentWeather: currentWeather, unit: Unit.Imperial , currentLocation: currentLocation])
 
     }
+
+    def saveLocation()
+    {
+
+    }
+
+
+
+
+
 
     def demo(String unit) {
         Unit unitEnum = Unit.unitWithString(unit)

@@ -7,21 +7,30 @@ import java.time.LocalDateTime
 
 class Location {
 
-
-    String location
-    Date createDate
-
+    String currentWeatherCall
+    String fiveDayWeatherCall
 
 
 
-
-    static belongsTo = [user: User]
+    static belongsTo = [user: User, city: City]
 
     static constraints = {
 
-        location nullable:  false
-        createDate nullable: false
+
 
 
     }
+
+    static mapping = {
+
+
+        cache: true
+        user lazy: false
+        city lazy: false
+
+
+    }
+
+
+
 }

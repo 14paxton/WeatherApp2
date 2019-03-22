@@ -8,6 +8,8 @@
 
 
 
+
+
 </head>
 <body>
 
@@ -29,6 +31,8 @@
             </g:form>
             </g:if>
 
+
+
             <g:if test="${cityNames}">
             <g:form controller="activeUser" action="showWeather">
                 <g:select name="cityChoice" from="${cityNames}" noSelection="${['null':'Choose your city...']}" optionKey="geonameID" optionValue="cityName"
@@ -37,14 +41,14 @@
             </g:form>
             </g:if>
             <g:if test="${currentWeather}">
-                <g:each in="${currentWeather.weatherList}" var="weather">
-                    <div class="weatherBlock">
-                        <h2><b>${currentWeather.cityName}</b></h2>
-                        <h3>${currentWeather.main?.temperature}</h3>
-                        <openweather:image icon="${weather.icon}"/>
-                        <h4>${weather.description}</h4>
-                    </div>
-                </g:each>
+                <div id="content" role="main">
+                    <section class="row colset-2-its">
+                        <g:if test="${currentWeather}">
+                            <g:render template="/openweather/currentWeather"
+                                      model="[currentWeather: currentWeather, unit: unit, currentLocation: currentLocation]"/>
+                        </g:if>
+                    </section>
+                </div>
             </g:if>
 
 
@@ -53,6 +57,12 @@
 
     </section>
 </div>
+
+
+
+
+
+
 
 </body>
 </html>

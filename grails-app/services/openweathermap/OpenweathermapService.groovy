@@ -6,6 +6,8 @@ import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
+import weatherapp.City
+import weatherapp.Location
 
 @CompileStatic
 class OpenweathermapService implements GrailsConfigurationAware {
@@ -28,16 +30,28 @@ class OpenweathermapService implements GrailsConfigurationAware {
 
 
     @CompileDynamic
-    CurrentWeather currentWeather(String geoID) {
+    Map currentWeather(Long geoID) {
         RestBuilder rest = new RestBuilder()
-        String url = "http://api.openweathermap.org/data/2.5/weather?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d"
+        String url = "http://api.openweathermap.org/data/2.5/weather?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
 
        // url = "http://api.openweathermap.org/data/2.5/forecast?id=3041732&APPID=097e124b838ecac32ee6299a03694e0d"
         RestResponse restResponse = rest.get(url)
 
 
         if ( restResponse.statusCode.value() == 200 && restResponse.json ) {
-            return OpenweathermapParser.currentWeatherFromJSONElement(restResponse.json)
+
+            def weatherData = OpenweathermapParser.currentWeatherFromJSONElement(restResponse.json)
+            def currentLocation = new Location()
+            currentLocation.currentWeatherCall = "http://api.openweathermap.org/data/2.5/weather?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
+            currentLocation.fiveDayWeatherCall = "http://api.openweathermap.org/data/2.5/forcast?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
+
+            def valueMap = [:]
+
+            valueMap["location"] = currentLocation
+            valueMap["weatherData"] = weatherData
+
+            return valueMap
+
         }
         null
     }

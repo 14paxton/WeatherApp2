@@ -11,6 +11,7 @@ class City {
 
 
     static belongsTo = [country: Country]
+    static hasMany = [locations: Location]
     static constraints = {
 
 
