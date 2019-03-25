@@ -46,6 +46,9 @@ class OpenweathermapParser  {
         main
     }
 
+
+
+
     @CompileDynamic
     static Wind windFromJsonElement(JSONElement json) {
         Wind wind = new Wind()
@@ -150,4 +153,39 @@ class OpenweathermapParser  {
         }
         currentWeather
     }
+
+    @CompileDynamic
+    static ForecastWeather forecastWeatherFromJSONElement(JSONElement json) {
+        ForecastWeather forecastWeather = new ForecastWeather()
+
+        if(json.city){
+            forecastWeather.cityName = json.city.name
+        }
+        if(json.list){
+            def forecastList = json.list
+
+
+            forecastList.each {
+
+                ForecastDay thisDay = new ForecastDay()
+                thisDay.date = it.dt
+                thisDay.main = mainFromJsonElement(it.main)
+                thisDay.weather = weatherFromJsonElement(it.weather)
+
+                forecastWeather.forecastDayList << thisDay
+
+            }
+
+
+
+
+        }
+
+        forecastWeather
+
+    }
+
+
+
+
 }

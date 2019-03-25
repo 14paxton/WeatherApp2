@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="en">
-<html>
+
 <head>
     <title>Weather</title>
     <asset:stylesheet src="application.css"/>
@@ -9,9 +9,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+    <!-- web font -->
+    <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <!-- //web font -->
+    <!-- js -->
+    <asset:javascript src="js/jquery-2.1.4.min.js"/>
+    <asset:javascript src="js/skycons.js"/>
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <!--<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />-->
-    <script src="js/jquery.min.js"></script>
+    <asset:javascript src="jquery.min.js"/>
     <script type="text/javascript">
         jQuery(document).ready(function($) {
             $(".scroll").click(function(event){
@@ -21,9 +27,9 @@
         });
     </script>
     <!-- grid-slider -->
-    <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="js/jquery.contentcarousel.js"></script>
-    <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+    <asset:javascript src="jquery.mousewheel.js"/>
+    <asset:javascript src="js/jquery.contentcarousel.js"/>
+    <asset:javascript src="jquery.easing.1.3.js"/>
     <!-- //grid-slider -->
     <g:layoutHead/>
 </head>
@@ -36,6 +42,8 @@
 
 <div class="header">
 
+
+
     <div class="container">
         <sec:ifNotLoggedIn>
             <div class="header-text">
@@ -47,10 +55,92 @@
                 </div>
             </div>
         </sec:ifNotLoggedIn>
+<sec:ifLoggedIn>
+
+
+    <div class="w3ls-weather-agileinfo">
+        <div class="weather-left">
+            <div class="weather-left-text">
+                <h4>Los Angeles, USA </h4>
+                <h5>Sunday, 12th March </h5>
+            </div>
+            <ul class="report">
+                <li><a href="#">79 °F</a></li>
+                <li><a href="#"><span>25</span> °C</a></li>
+            </ul>
+        </div>
+        <div class="weather-right">
+            <ul>
+                <li>
+                    <figure class="icons">
+                        <canvas id="partly-cloudy-day" width="10" height="10"></canvas>
+                    </figure>
+                    <h4>Tue</h4>
+                    <h5>25 °C</h5>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <figure class="icons">
+                        <canvas id="partly-cloudy-day" width="10" height="10"></canvas>
+                    </figure>
+                    <h4>Tue</h4>
+                    <h5>25 °C</h5>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <figure class="icons">
+                        <canvas id="partly-cloudy-day" width="10" height="10"></canvas>
+                    </figure>
+                    <h4>Tue</h4>
+                    <h5>25 °C</h5>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <figure class="icons">
+                        <canvas id="partly-cloudy-day" width="10" height="10"></canvas>
+                    </figure>
+                    <h4>Tue</h4>
+                    <h5>25 °C</h5>
+                    <div class="clear"></div>
+                </li>
+            </ul>
+            <script>
+                var icons = new Skycons({"color": "#fff"}),
+                    list  = [
+                        "partly-cloudy-day"
+                    ],
+                    i;
+
+                for(i = list.length; i--; )
+                    icons.set(list[i], list[i]);
+                icons.play();
+            </script>
+            <script>
+                var icons = new Skycons({"color": "#fff"}),
+                    list  = [
+                        "clear-night","partly-cloudy-night", "cloudy", "clear-day", "sleet", "snow", "wind","fog"
+                    ],
+                    i;
+
+                for(i = list.length; i--; )
+                    icons.set(list[i], list[i]);
+                icons.play();
+            </script>
+        </div>
+        <div class="clear"></div>
+    </div>
+</sec:ifLoggedIn>
+
+
+
+
+
         <div class="header-arrow">
             <a href="#menu" class="class scroll"><span> </span </a>
         </div>
     </div>
+
+
 </div>
 
 <!-- end header_top -->

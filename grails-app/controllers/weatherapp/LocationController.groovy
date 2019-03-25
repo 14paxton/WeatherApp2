@@ -27,7 +27,8 @@ class LocationController {
 
     def save(Location location) {
 
-        City x = params.city
+        def y = City.findByCityName(location.city.cityName)
+
         if (location == null) {
             notFound()
             return
@@ -42,8 +43,8 @@ class LocationController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'location.label', default: 'Location'), location.id])
-                redirect location
+                flash.message = message(code: 'default.created.message', args: [message(code: 'location.label', default: 'Location'), y.cityName])
+                redirect(controller: "ActiveUser")
             }
             '*' { respond location, [status: CREATED] }
         }
@@ -80,13 +81,17 @@ class LocationController {
             notFound()
             return
         }
+        def theLocation = Location.findById(id)
+        def theCity = City.findByCityName(theLocation.city.cityName)
 
         locationService.delete(id)
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'location.label', default: 'Location'), id])
-                redirect action:"index", method:"GET"
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'location.label', default: 'Location'), theCity.cityName])
+                redirect(controller: "ActiveUser")
+                /*flash.message = message(code: 'default.deleted.message', args: [message(code: 'location.label', default: 'Location'), id])
+                redirect action:"index", method:"GET"*/
             }
             '*'{ render status: NO_CONTENT }
         }

@@ -29,14 +29,18 @@ class ActiveUserController {
 
         def countryNameList = Country.listOrderByCountryName().collect {it.countryName}
 
-        def cityNameList = servletContext.cities
+        def locationList = Location.findAllByUser(currentUser)
+
+        def locationCount = locationList.size()
+
+        //def cityNameList = servletContext.cities
 
 
 
         def y = countryNameList.size()
 
 
-        [locations: locations, currentUser: currentUser, countries: countryNameList , size: y]
+        [locations: locations, currentUser: currentUser, countries: countryNameList , locationList: locationList, locationCount: locationCount]
 
     }
 

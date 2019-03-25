@@ -33,22 +33,27 @@ class OpenweathermapService implements GrailsConfigurationAware {
     Map currentWeather(Long geoID) {
         RestBuilder rest = new RestBuilder()
         String url = "http://api.openweathermap.org/data/2.5/weather?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
+        String fiveDayUrl =  "http://api.openweathermap.org/data/2.5/forecast?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
 
        // url = "http://api.openweathermap.org/data/2.5/forecast?id=3041732&APPID=097e124b838ecac32ee6299a03694e0d"
         RestResponse restResponse = rest.get(url)
+        RestResponse fiveRestResponse = rest.get(fiveDayUrl)
 
 
         if ( restResponse.statusCode.value() == 200 && restResponse.json ) {
 
             def weatherData = OpenweathermapParser.currentWeatherFromJSONElement(restResponse.json)
+            def fiveDayData = OpenweathermapParser.forecastWeatherFromJSONElement(fiveRestResponse.json)
             def currentLocation = new Location()
             currentLocation.currentWeatherCall = "http://api.openweathermap.org/data/2.5/weather?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
-            currentLocation.fiveDayWeatherCall = "http://api.openweathermap.org/data/2.5/forcast?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
+            currentLocation.fiveDayWeatherCall = "http://api.openweathermap.org/data/2.5/forecast?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
+
 
             def valueMap = [:]
 
             valueMap["location"] = currentLocation
             valueMap["weatherData"] = weatherData
+            valueMap["fiveDayData"] = fiveDayData
 
             return valueMap
 

@@ -6,8 +6,8 @@
             <openweather:image icon="${weather.icon}"/>
             <h4>${weather.description}</h4>
         <g:form resource="${currentLocation}" method="POST">
-            <g:hiddenField name="city" value="${currentLocation.city}" />
-            <g:hiddenField name="user" value="${currentLocation.user}" />
+            <g:hiddenField name="city" value="${currentLocation.city.id}" />
+            <g:hiddenField name="user" value="${currentLocation.user.id}" />
             <g:hiddenField name="currentWeatherCall" value="${currentLocation.currentWeatherCall}" />
             <g:hiddenField name="fiveDayWeatherCall" value="${currentLocation.fiveDayWeatherCall}" />
 

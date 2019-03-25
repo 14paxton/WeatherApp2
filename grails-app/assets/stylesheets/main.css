@@ -601,3 +601,126 @@ img.grails-logo {
     border: 1px solid #c0d3db;
     float: left;
 }
+
+
+/*-- weather --*/
+.w3ls-weather {
+    padding: 3em 0 0;
+}
+.w3ls-weather-agileinfo {
+    width: 35%;
+    margin: 5em auto;
+    background: url(../images/img1.jpg)no-repeat center;
+    background-size: cover;
+    overflow: hidden;
+    border: 8px solid rgba(255, 255, 255, 0.85);
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+}
+/*-- weather --*/
+.weather-left {
+    float: left;
+    width: 75%;
+}
+.weather-left-text {
+    padding:4em 2em 5em;
+    text-align: center;
+}
+.weather-right{
+    float:right;
+    width:25%;
+    background:#fff;
+}
+.weather-left  h4 {
+    font-size: 1.5em;
+    color: #fff;
+}
+.weather-left  h5 {
+    font-size: .9em;
+    color: #fff;
+    margin-top: 0.5em;
+}
+.weather-left span.glyphicon {
+    margin-right: 0.8em;
+}
+ul.report li {
+    display: block;
+}
+ul.report li a {
+    padding: 0.4em 1.5em;
+    background: #3F51B5;
+    -webkit-border-radius: 0 50px 50px 0;
+    -moz-border-radius: 0 50px 50px 0;
+    border-radius: 0 50px 50px 0;
+    color: #fff;
+    font-size: 1em;
+    display: inline-block;
+}
+ul.report li:nth-child(2) {
+    margin-top: 1.2em;
+}
+ul.report li:nth-child(2) a{
+    padding: 0.4em 1.2em .4em 0.8em;
+    color: #3F51B5;
+    background: #fff;
+    margin-left: -1em;
+    -webkit-transition:.5s all;
+    -moz-transition:.5s all;
+    transition:.5s all;
+}
+.weather-right ul li {
+    display: block;
+    text-align: center;
+    padding: 1em;
+    background: #F44336;
+}
+.weather-right ul li:nth-child(2){
+    background: #9C27B0;
+}
+.weather-right ul li:nth-child(3){
+    background: #03A9F4;
+}
+.weather-right ul li:nth-child(4){
+    background: #FFC107;
+}
+ul.report li:nth-child(2) a span {
+    opacity:0;
+    -moz-opacity:0;
+    -webkit-transition:.5s all;
+    -moz-transition:.5s all;
+    transition:.5s all;
+}
+ul.report li:nth-child(2) a:hover span{
+    opacity:1;
+    -moz-opacity:1;
+}
+ul.report li:nth-child(2) a:hover{
+    margin:0;
+}
+figure.icons,.weather-text  {
+    float: left;
+    width: 50%;
+}
+.weather-right ul li figure.icons {
+    float: none;
+    width: 100%;
+}
+.weather-right h3 {
+    font-size: 1.5em;
+    color: #fff;
+}
+canvas#clear-day,canvas#snow,canvas#partly-cloudy-night {
+    width: 80%;
+}
+.weather-right h4 {
+    font-size: 1em;
+    color: #fff;
+}
+.weather-right h5 {
+    font-size: .9em;
+    color: #fff;
+    margin-top: 0.5em;
+}
+/*-- //weather --*/
+
