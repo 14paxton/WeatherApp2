@@ -35,7 +35,7 @@ class OpenweathermapService implements GrailsConfigurationAware {
         String url = "http://api.openweathermap.org/data/2.5/weather?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
         String fiveDayUrl =  "http://api.openweathermap.org/data/2.5/forecast?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
 
-       // url = "http://api.openweathermap.org/data/2.5/forecast?id=3041732&APPID=097e124b838ecac32ee6299a03694e0d"
+        // url = "http://api.openweathermap.org/data/2.5/forecast?id=3041732&APPID=097e124b838ecac32ee6299a03694e0d"
         RestResponse restResponse = rest.get(url)
         RestResponse fiveRestResponse = rest.get(fiveDayUrl)
 
@@ -60,6 +60,28 @@ class OpenweathermapService implements GrailsConfigurationAware {
         }
         null
     }
+
+    @CompileDynamic
+    ForecastWeather GetForecastFromString(String apiCall) {
+        RestBuilder rest = new RestBuilder()
+
+        RestResponse restResponse = rest.get(apiCall)
+
+
+        if ( restResponse.statusCode.value() == 200 && restResponse.json ) {
+            def fiveDayData = OpenweathermapParser.forecastWeatherFromJSONElement(restResponse.json)
+
+
+           return fiveDayData
+
+        }
+        null
+    }
+
+
+
+
+
 
 
     @CompileDynamic

@@ -4,6 +4,7 @@ import org.springframework.security.access.annotation.Secured
 import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.transform.CompileStatic
 import openweathermap.CurrentWeather
+import openweathermap.ForecastWeather
 import openweathermap.OpenweathermapService
 import openweathermap.Unit
 import app.admin.security.*
@@ -27,20 +28,34 @@ class ActiveUserController {
             redirect(controller: "AdminDashboard")
         }
 
-        def countryNameList = Country.listOrderByCountryName().collect {it.countryName}
+        def countryNameList = Country.listOrderByCountryName().collect {it.countryName}.minus('United States')
 
         def locationList = Location.findAllByUser(currentUser)
-
         def locationCount = locationList.size()
 
+        //if there is a location use the last added to supply forecast widget
+        //otherwise use default location
+        def forecastData
+
+        if(locationList)
+        {
+           forecastData = openweathermapService.GetForecastFromString(locationList.last().fiveDayWeatherCall)
+
+        }
+        else
+        {
+            //default search Hollywood
+            forecastData = openweathermapService.GetForecastFromString("http://api.openweathermap.org/data/2.5/forecast?id=4158928&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial")
+
+        }
+
         //def cityNameList = servletContext.cities
+        //def y = countryNameList.size()
 
 
 
-        def y = countryNameList.size()
-
-
-        [locations: locations, currentUser: currentUser, countries: countryNameList , locationList: locationList, locationCount: locationCount]
+        [locations: locations, currentUser: currentUser, countries: countryNameList , locationList: locationList,
+         locationCount: locationCount, forecastWeather: forecastData ]
 
     }
 
@@ -96,13 +111,15 @@ class ActiveUserController {
         def values = openweathermapService.currentWeather(Long.valueOf(params.cityChoice))
 
         CurrentWeather currentWeather = values["weatherData"]
+        ForecastWeather forecastWeather = values["fiveDayData"]
 
         Location currentLocation = values["location"]
         currentLocation.city = City.findByGeonameID(Long.valueOf(params.cityChoice))
         currentLocation.user = currentUser
 
 
-        render(view: "/activeUser/index", model: [currentUser: currentUser  ,currentWeather: currentWeather, unit: Unit.Imperial , currentLocation: currentLocation])
+        render(view: "/activeUser/index", model: [currentUser: currentUser  ,currentWeather: currentWeather, unit: Unit.Imperial ,
+                                                  currentLocation: currentLocation, forecastWeather: forecastWeather])
 
     }
 

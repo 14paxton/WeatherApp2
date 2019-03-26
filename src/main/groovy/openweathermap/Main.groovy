@@ -4,7 +4,8 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 class Main {
-    BigDecimal temperature
+    BigInteger temperature
+    BigInteger tempCelsius
     BigDecimal pressure
     Integer humidity
     BigDecimal tempMin

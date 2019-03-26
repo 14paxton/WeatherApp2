@@ -7,7 +7,7 @@ class ForecastDay {
 
     String date
     Main main
-    Weather weather
+    List <Weather> weatherList
 
 
 }

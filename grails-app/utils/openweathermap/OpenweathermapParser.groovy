@@ -3,6 +3,9 @@ package openweathermap
 import groovy.transform.CompileStatic
 import org.grails.web.json.JSONElement
 import groovy.transform.CompileDynamic
+import java.time.Instant
+import java.util.Date
+import java.text.SimpleDateFormat
 
 @CompileStatic
 class OpenweathermapParser  {
@@ -23,7 +26,8 @@ class OpenweathermapParser  {
     static Main mainFromJsonElement(JSONElement json) {
         Main main = new Main()
         if ( json.temp ) {
-            main.temperature = json.temp as BigDecimal
+            main.temperature = json.temp as BigInteger
+            main.tempCelsius = (main.temperature - 32) * 0.55555556
         }
         if ( json.pressure ) {
             main.pressure = json.pressure as BigDecimal
@@ -154,6 +158,11 @@ class OpenweathermapParser  {
         currentWeather
     }
 
+
+
+
+
+
     @CompileDynamic
     static ForecastWeather forecastWeatherFromJSONElement(JSONElement json) {
         ForecastWeather forecastWeather = new ForecastWeather()
@@ -163,20 +172,35 @@ class OpenweathermapParser  {
         }
         if(json.list){
             def forecastList = json.list
+            forecastWeather.forecastDayList = []
 
 
             forecastList.each {
 
                 ForecastDay thisDay = new ForecastDay()
-                thisDay.date = it.dt
+
+                Date theDate = Date.from(Instant.ofEpochSecond(it.dt))
+
+                SimpleDateFormat df2 = new SimpleDateFormat("EEE MMM dd")
+                String dateText = df2.format(theDate)
+
+                thisDay.date = dateText
+
                 thisDay.main = mainFromJsonElement(it.main)
-                thisDay.weather = weatherFromJsonElement(it.weather)
+
+
+                if ( it.weather ) {
+                    thisDay.weatherList = []
+                    for (Object obj : it.weather) {
+                        Weather weather = weatherFromJsonElement(obj)
+                        thisDay.weatherList << weather
+                    }
+                }
+
 
                 forecastWeather.forecastDayList << thisDay
 
             }
-
-
 
 
         }

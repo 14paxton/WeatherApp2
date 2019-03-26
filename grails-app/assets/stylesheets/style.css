@@ -17,7 +17,7 @@ body a{
 	left: 0px;
 	background: url(../images/thunderstorm2.jpg)no-repeat center top;
 	background-size: 100% 100%;
-	padding:16% 0 0 0;
+	padding:5% 0 0 0;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -221,8 +221,8 @@ li.rss a span:hover{
 }
 .nav:before,
 .nav:after {
-    content: " "; 
-    display: table; 
+    content: " ";
+    display: table;
 }
 .nav:after {
     clear: both;
@@ -514,7 +514,7 @@ ul.spinning li.room{
    -o-transform: translateX(0px);
    -ms-transform: translateX(0px);
    transform: translateX(0px);
-}	
+}
 .about{
 	margin-top:7%;
 }
@@ -983,7 +983,7 @@ span.tab1-img img{
 .tab-text1 p a:hover{
 	color: #00BFF0;
 	text-decoration: none;
-}	
+}
 .tab-text1 p {
 	margin-bottom: 10px;
 }
@@ -1159,7 +1159,7 @@ span.m_date{
 .ca-nav span{
 	width:70px;
 	height:70px;
-	background: url(../images/img-sprite.png)no-repeat -137px -119px; 
+	background: url(../images/img-sprite.png)no-repeat -137px -119px;
 	position:absolute;
 	top:50%;
 	margin-top:-43px;
@@ -2167,7 +2167,7 @@ ul.buttons_class li.btn8 a {
 	-o-border-radius: 3px;
 	border: 1px solid #00BFF0;
 	text-transform: uppercase;
-	list-style:none; 
+	list-style:none;
 	text-decoration: none;
 }
 ul.buttons_class li.btn8 a:hover {
@@ -2259,7 +2259,7 @@ h3.m_13{
 	text-transform:uppercase;
 	text-align: center;
 	margin: 0 0 20px;
-}	
+}
 ul.list1_class li {
 	list-style-image: url(../images/a3.png);
 	margin: 0 25px 10px;
@@ -2843,8 +2843,8 @@ span.m_22 a:hover{
 	font-size: 1em;
 }
 #commentform label {
-	display: block; 
-	font-size:1em; 
+	display: block;
+	font-size:1em;
 	float: right;
 	margin-top:15px;
 	color:#00BFF0;
@@ -3956,7 +3956,7 @@ span.m_26 {
 	#commentform input[type="submit"] {
 		padding: 10px 50px;
 		font-size: 1em;
-	}	
+	}
 	.to input[type="text"] {
 		margin-left: 0px !important;
 		width: 100%;
@@ -3991,7 +3991,7 @@ span.m_26 {
 @media (max-width:320px){
 	.header-text h1 {
 		font-size: 1.3em;
-		
+
 	}
 	.banner_btn a {
 		font-size: 0.8125em;
