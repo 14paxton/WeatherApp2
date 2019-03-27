@@ -46,13 +46,12 @@
         <g:if test='${flash.message}'>
             <div class="alert alert-warning" role="alert">${flash.message}</div>
         </g:if>
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="username" class="sr-only">Email address</label>
-        <input type="email" id="username" name="username" class="form-control" placeholder="Email address" required autofocus>
+        <h2 class="form-signin-heading"><g:message code="please.sign.in" /></h2>
+        <input type="email" id="username" name="username" class="form-control" placeholder="<g:message code="email.label"/>" required autofocus>
         <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        <input type="password" id="password" name="password" class="form-control" placeholder="<g:message code="password.label"/>" required>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><g:message code="sign.in" /></button>
     </form>
 
 </div>

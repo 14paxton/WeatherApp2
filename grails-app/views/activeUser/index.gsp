@@ -3,41 +3,45 @@
 <html>
 <head>
     <meta name="layout" content="standard"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>YourWeather</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+
     <asset:javascript src="application.js"/>
 
-
-    <style>
-    .ui-autocomplete-loading {
-        background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
-    }
-    </style>
+   %{-- custom script for datatable--}%
+    <asset:javascript src="dataTable.js"/>
 
 
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="https:////cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
     <g:javascript>
-      var thisList =   <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec>
 
-       //var thisList = ${countries};
 
-        $( function() {
-    function log( message ) {
-      $( "<div>" ).text( message ).prependTo( "#log" );
-      $( "#log" ).scrollTop( 0 );
-    }
+         var thisList =   <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec>
 
-    $( "#birds" ).autocomplete({
-      source: <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec> ,
-      minLength: 2,
-      select: function( event, ui ) {
-        log( "Selected: " + ui.item.value + " aka " + ui.item.id );
-      }
-    });
-  } );
-    </g:javascript>
+           //var thisList = ${countries};
+
+           $( function() {
+       function log( message ) {
+         $( "<div>" ).text( message ).prependTo( "#log" );
+         $( "#log" ).scrollTop( 0 );
+       }
+
+       $( "#birds" ).autocomplete({
+         source: <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec> ,
+         minLength: 2,
+         select: function( event, ui ) {
+           log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+         }
+       });
+     } );
+       </g:javascript>
 
 
 
@@ -48,7 +52,7 @@
 
 <div id="content" role="main">
     <section class="row colset-2-its">
-        <h1>You Have Logged In ${currentUser.email}!!!</h1>
+        <h1><g:message code="you.have.logged.in.0" args="[currentUser.email]" /></h1>
         <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
         </g:if>
@@ -64,7 +68,7 @@
 
             </g:form>
             </g:if>
-            
+
             <g:formRemote name="countryChoice" update="cities"
                             url="[controller: 'activeUser', action: 'getMatchingCities()']">
                Countries: <input type="text" id="birds" class="search_input" placeholder="Choose Your Country" required="required" onchange="submit()" >
@@ -122,11 +126,11 @@
 
     <g:if test="${locationList}">
             <div id="list-location" class="content scaffold-list" >
-                <h1>Your Saved Locations</h1>
-            <table class="table">
+                <h1><g:message code="your.saved.locations" /></h1>
+                <table id="location_table" class="display compact" style="width:99%;">
                 <thead>
                 <tr>
-                    <th>City</th>
+                    <th><g:message code="city" /></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -137,7 +141,7 @@
                         <td><a href="${createLink(controller: "ActiveUser",  action: 'showSavedLocationWeather', params: [locationURL: loc.fiveDayWeatherCall])}">${loc.city.cityName}</a></td>
 
                         <td><g:form controller="location" action="delete" id="${loc.id}" method="DELETE">
-                            <input class="btn btn-primary" type="submit" value="Delete Location" />
+                            <input class="btn btn-primary" type="submit" value="${message(code:"delete.location")}" />
                         </g:form></td>
 
                     </tr>
@@ -157,4 +161,7 @@
 
 
 </body>
+
+
+
 </html>

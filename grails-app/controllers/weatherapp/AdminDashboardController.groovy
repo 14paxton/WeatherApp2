@@ -1,5 +1,6 @@
 package weatherapp
 
+import app.admin.security.User
 import org.springframework.security.access.annotation.Secured
 
 
@@ -13,7 +14,9 @@ class AdminDashboardController {
     def index() {
 
         def currentUser = springSecurityService.currentUser
-        respond(currentUser: currentUser)
+        def allUsers = User.findAll()
+        allUsers.remove(currentUser)
+        respond(currentUser: currentUser, allUsers: allUsers)
 
 
 

@@ -2,9 +2,15 @@
 <html lang="en">
 
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Weather</title>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <asset:stylesheet src="application.css"/>
     <asset:stylesheet src="style.css"/>
+    <asset:javascript src="skycons.js"/>
 
 
     <g:layoutHead/>
@@ -36,23 +42,23 @@
                     <ul>
                         <li>
                             <figure class="icons">
-                                <canvas id="partly-cloudy-day" width="10" height="10"></canvas>
+                                <canvas id="partly-cloudy-day" width="30" height="30"></canvas>
                             </figure>
-                            <h4>${forecastWeather.forecastDayList[8].date}</h4>
+                            <h5>${forecastWeather.forecastDayList[8].date}</h5>
                             <h5>${forecastWeather.forecastDayList[8].main.temperature} °F</h5>
                             <div class="clear"></div>
                         </li>
                         <li>
                             <figure class="icons">
-                                <canvas id="partly-cloudy-day" width="10" height="10"></canvas>
+                                <canvas id="cloudy" width="30" height="30"></canvas>
                             </figure>
-                            <h4>${forecastWeather.forecastDayList[16].date}</h4>
+                            <h5>${forecastWeather.forecastDayList[16].date}</h5>
                             <h5>${forecastWeather.forecastDayList[16].main.temperature} °F</h5>
                             <div class="clear"></div>
                         </li>
                         <li>
                             <figure class="icons">
-                                <canvas id="partly-cloudy-day" width="10" height="10"></canvas>
+                                <canvas id="clear-day" width="30" height="30"></canvas>
                             </figure>
                             <h4>${forecastWeather.forecastDayList[24].date}</h4>
                             <h5>${forecastWeather.forecastDayList[24].main.temperature} °F</h5>
@@ -60,7 +66,7 @@
                         </li>
                         <li>
                             <figure class="icons">
-                                <canvas id="partly-cloudy-day" width="10" height="10"></canvas>
+                                <canvas id="wind" width="30" height="30"></canvas>
                             </figure>
                             <h4>${forecastWeather.forecastDayList[32].date}</h4>
                             <h5>${forecastWeather.forecastDayList[32].main.temperature} °F</h5>
@@ -98,11 +104,11 @@
     <div class="container">
         <sec:ifNotLoggedIn>
             <div class="header-text">
-                <h1>My Weather</h1>
-                <h2>An Elaborate Way To Check The Weather</h2>
-                <p>Please sign up so we can track your usage</p>
+                <h1><g:message code="register.widget.heading"/></h1>
+                <h2><g:message code="register.widget.tag"/></h2>
+                <p><g:message code="register.widget.email.message"/></p>
                 <div class="banner_btn">
-                    <a class="nav-link" href="${createLink(controller: 'signUp', action: 'join')}">Sign up</a>
+                    <a class="nav-link" href="${createLink(controller: 'signUp', action: 'join')}"><g:message code="register.widget.button"/></a>
                 </div>
             </div>
         </sec:ifNotLoggedIn>
@@ -146,16 +152,16 @@
             <ul class="nav">
                 <sec:ifNotLoggedIn>
                     <li class="nav-item">
-                        <a class="nav-link" href="${createLink(controller: 'signUp', action: 'join')}">Sign up</a>
+                        <a class="nav-link" href="${createLink(controller: 'signUp', action: 'join')}"><g:message code="nav.signup.button"/></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${createLink(controller: 'login', action: 'auth')}">Login</a>
+                        <a class="nav-link" href="${createLink(controller: 'login', action: 'auth')}"><g:message code="nav.login.button"/></a>
                     </li>
                 </sec:ifNotLoggedIn>
                 <sec:ifLoggedIn>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="${createLink(controller: 'logoff')}">Logout</a>
+                        <a class="nav-link" href="${createLink(controller: 'logoff')}"><g:message code="nav.logout.button"/></a>
                     </li>
                 </sec:ifLoggedIn>
             </ul>

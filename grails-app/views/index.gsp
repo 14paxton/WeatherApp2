@@ -17,7 +17,7 @@
 
 <div id="content" role="main">
     <section class="row colset-2-its">
-        <h1>Find Your Weather</h1>
+        <h1><g:message code="my.homepage.greeting"/></h1>
 
 
         <div class="mysearch" role="presentation">

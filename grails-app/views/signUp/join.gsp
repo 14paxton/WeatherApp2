@@ -43,14 +43,14 @@
 <div class="container">
 
     <form action="${createLink(controller: 'signUp', action: 'save')}" class="form-signin" method="POST" autocomplete="on">
-        <h2 class="form-signin-heading">Let Us Email You Spam</h2>
-        <label for="email" class="sr-only">Email address</label>
-        <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        <h2 class="form-signin-heading"><g:message code="signup.header"/></h2>
+
+        <input type="email" id="email" name="email" class="form-control" placeholder="<g:message code="email.label"/>" required autofocus>
+
+        <input type="password" id="password" name="password" class="form-control" placeholder="<g:message code="password.label"/>" required>
 
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up!</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><g:message code="signup.password.submit.button"/></button>
     </form>
 
 </div>

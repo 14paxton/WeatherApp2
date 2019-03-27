@@ -6,6 +6,7 @@ import static org.springframework.http.HttpStatus.*
 class UserController {
 
     UserService userService
+    UserRoleService userRoleService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -63,8 +64,8 @@ class UserController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), user.id])
-                redirect user
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), user.email])
+                redirect controller:"AdminDashboard", action:"index", method:"GET"
             }
             '*'{ respond user, [status: OK] }
         }
@@ -76,12 +77,16 @@ class UserController {
             return
         }
 
+        def userEmail = User.findById(id).email
+
+        UserRole.removeAll(User.findById(id))
+
         userService.delete(id)
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
-                redirect action:"index", method:"GET"
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), userEmail.toString()])
+                redirect controller:"AdminDashboard", action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
         }
@@ -96,4 +101,10 @@ class UserController {
             '*'{ render status: NOT_FOUND }
         }
     }
+
+
+
+
+
+
 }
