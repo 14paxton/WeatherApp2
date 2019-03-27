@@ -1,3 +1,4 @@
+<%@ page import="grails.converters.JSON" %>
 <!doctype html>
 <html>
 <head>
@@ -7,16 +8,37 @@
     <link rel="stylesheet" href="/resources/demos/style.css">
     <asset:javascript src="application.js"/>
 
+
+    <style>
+    .ui-autocomplete-loading {
+        background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+    }
+    </style>
+
+
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
+    <g:javascript>
+      var thisList =   <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec>
+
+       //var thisList = ${countries};
+
         $( function() {
-            var availableTags = ${countries};
-            $( "#tags" ).autocomplete({
-                source: availableTags
-            });
-        } );
-    </script>
+    function log( message ) {
+      $( "<div>" ).text( message ).prependTo( "#log" );
+      $( "#log" ).scrollTop( 0 );
+    }
+
+    $( "#birds" ).autocomplete({
+      source: <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec> ,
+      minLength: 2,
+      select: function( event, ui ) {
+        log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+      }
+    });
+  } );
+    </g:javascript>
+
 
 
 
@@ -35,7 +57,6 @@
         <div id="list-locations" class="content scaffold-list" role="main">
 
 
-            
 
             <g:if test="${countries}">
             <g:form controller="activeUser" action="getCities">
@@ -43,6 +64,15 @@
 
             </g:form>
             </g:if>
+            
+            <g:formRemote name="countryChoice" update="cities"
+                            url="[controller: 'activeUser', action: 'getMatchingCities()']">
+               Countries: <input type="text" id="birds" class="search_input" placeholder="Choose Your Country" required="required" onchange="submit()" >
+            </g:formRemote>
+            <g:select name="cities" id="cities" from="${cityNames}" noSelection="${['null':'Choose your city...']}" optionKey="geonameID" optionValue="cityName"
+                      onchange="submit()" />
+
+
 
 
 
@@ -74,9 +104,8 @@
                                     <form action="#" class="search_form" id="search_form">
                                         <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
                                             <div class="search_inputs d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-                                                <input type="text" class="search_input" placeholder="Property type" required="required">
+                                                <input type="text" id="birds" class="search_input" placeholder="Choose Your Country" required="required">
                                                 <input type="text" class="search_input" placeholder="No rooms" required="required">
-                                                <input type="text" class="search_input" placeholder="Location" required="required">
                                             </div>
                                             <button class="search_button">Find Weather</button>
                                         </div>
@@ -86,12 +115,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-            <div class="ui-widget">
-                <label for="tags">Tags: </label>
-                <input id="tags">
             </div>
 
 
@@ -110,7 +133,9 @@
                 <tbody>
                 <g:each in="${locationList}" var="loc">
                     <tr>
-                        <td>${loc.city.cityName}</td>
+
+                        <td><a href="${createLink(controller: "ActiveUser",  action: 'showSavedLocationWeather', params: [locationURL: loc.fiveDayWeatherCall])}">${loc.city.cityName}</a></td>
+
                         <td><g:form controller="location" action="delete" id="${loc.id}" method="DELETE">
                             <input class="btn btn-primary" type="submit" value="Delete Location" />
                         </g:form></td>

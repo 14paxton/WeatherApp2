@@ -1,5 +1,6 @@
 package weatherapp
 
+import grails.converters.JSON
 import org.springframework.security.access.annotation.Secured
 import grails.plugin.springsecurity.SpringSecurityUtils
 import groovy.transform.CompileStatic
@@ -29,7 +30,6 @@ class ActiveUserController {
         }
 
         def countryNameList = Country.listOrderByCountryName().collect {it.countryName}.minus('United States')
-
         def locationList = Location.findAllByUser(currentUser)
         def locationCount = locationList.size()
 
@@ -52,11 +52,32 @@ class ActiveUserController {
         //def cityNameList = servletContext.cities
         //def y = countryNameList.size()
 
-
+        def jsonList = countryNameList as JSON
 
         [locations: locations, currentUser: currentUser, countries: countryNameList , locationList: locationList,
-         locationCount: locationCount, forecastWeather: forecastData ]
+         locationCount: locationCount, forecastWeather: forecastData , jsonList: jsonList]
 
+    }
+
+
+
+
+    def showSavedLocationWeather()
+    {
+        def currentUser = springSecurityService.currentUser
+
+        def locations = Location.findAllByUser(currentUser)
+
+        def countryNameList = Country.listOrderByCountryName().collect {it.countryName}.minus('United States')
+        def locationList = Location.findAllByUser(currentUser)
+
+        def  forecastData = openweathermapService.GetForecastFromString(params.locationURL)
+
+
+        def jsonList = countryNameList as JSON
+
+        render(view: "/activeUser/index", model: [locations: locations, currentUser: currentUser, countries: countryNameList ,
+                                                  locationList: locationList, forecastWeather: forecastData , jsonList: jsonList])
     }
 
 
@@ -99,6 +120,12 @@ class ActiveUserController {
         render(view: "/activeUser/index", model: [currentUser: currentUser  , cityNames: matchingCities])
 
 
+
+    }
+
+    def getMatchingCities() {
+
+         [ cityNames: City.findAllByCountry(Country.findByCountryName(params.countryChoice))]
 
     }
 
