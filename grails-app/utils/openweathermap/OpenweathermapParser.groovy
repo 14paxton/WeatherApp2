@@ -184,6 +184,8 @@ class OpenweathermapParser  {
                 SimpleDateFormat df2 = new SimpleDateFormat("EEE MMM dd")
                 String dateText = df2.format(theDate)
 
+
+                thisDay.javaDate = theDate
                 thisDay.date = dateText
 
                 thisDay.main = mainFromJsonElement(it.main)

@@ -6,6 +6,7 @@ import groovy.transform.CompileStatic
 class ForecastDay {
 
     String date
+    Date javaDate
     Main main
     List <Weather> weatherList
 

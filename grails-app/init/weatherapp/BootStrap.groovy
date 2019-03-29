@@ -1,8 +1,12 @@
 package weatherapp
+
+import grails.converters.JSON
 import grails.util.Environment
 import app.admin.security.Role
 import app.admin.security.User
 import app.admin.security.UserRole
+import org.hibernate.criterion.CriteriaSpecification
+
 
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -12,8 +16,58 @@ class BootStrap {
     def init = { servletContext ->
 
 
+        def cityMap = [:]
+        def choiceList = []
+/*
 
-        //servletContext.cities = City.findAll()
+        def cityall = City.listOrderByCountry()
+*/
+
+
+        def criteria = City.createCriteria()
+        def cityList = criteria.list{
+
+            projections {
+                distinct(['cityName', 'country', 'geonameID'])
+
+            }
+
+
+        }
+        
+
+
+
+      /*  def allCityObjects = []
+
+        cityList.each {allCityObjects.push( City.findWhere(cityName: it[0], geonameID: it[2], country: it[1]))}*/
+
+
+
+
+
+        /*cityMap = cityList.collect{[ cityName: it[0] ,geoID: it[2],
+                                     countryName: it[1], listChoice: it[1].countryName + ', ' + it[0] ] }*/
+
+
+    /*    cityList.each{  cityMap["${i}"] =[ cityName: it[0],geoID: it[2],
+                                   countryName: it[1], listChoice: it[1].countryName + ', ' + it[0] ] }*/
+
+
+        cityList.eachWithIndex{ list , index -> cityMap[index] =[ list[0] ,list[2],
+                                        list[1],  list[1].countryName + ', ' + list[0] ] }
+
+
+
+        servletContext.citiesMap = cityMap
+
+        cityList.each { entry -> choiceList << entry[1].countryName + ", " + entry[0]}
+
+        servletContext.choiceList = choiceList
+
+
+
+
 
 
 
@@ -75,40 +129,3 @@ class BootStrap {
 }
 
 
-
-/*
-package weatherapp
-
-import app.admin.security.Role
-import app.admin.security.User
-import app.admin.security.UserRole
-
-class BootStrap {
-
-    def init = { servletContext ->
-        populateUsers()
-    }
-    def populateUsers() {
-        def adminRole = new Role(authority: 'ROLE_ADMIN').save()
-        def operatorRole = new Role(authority: 'ROLE_OPERATOR').save()
-        def customerRole = new Role(authority: 'ROLE_CUSTOMER').save()
-
-        def adminUser = new User(username: 'admin', password: 'Password123!', fName: 'doug', lName: 'hans', email: 'dhans1@gmail.com').save()
-        def operatorUser = new User(username: 'operator', password: 'Password123!', fName: 'doug', lName: 'hans', email: 'dhans2@gmail.com').save()
-        def customerUser = new User(username: 'customer', password: 'Password123!', fName: 'doug', lName: 'hans', email: 'dhans3@gmail.com').save()
-
-        UserRole.create adminUser, adminRole
-        UserRole.create operatorUser, operatorRole
-        UserRole.create customerUser, customerRole
-
-        UserRole.withSession {
-            it.flush()
-            it.clear()
-        }
-
-        assert User.count() == 3
-        assert Role.count() == 3
-        assert UserRole.count() == 3
-    }
-}
-*/

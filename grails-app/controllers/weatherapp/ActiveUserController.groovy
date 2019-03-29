@@ -9,6 +9,9 @@ import openweathermap.ForecastWeather
 import openweathermap.OpenweathermapService
 import openweathermap.Unit
 import app.admin.security.*
+import org.springframework.web.servlet.support.RequestContextUtils as RCU
+
+import java.text.SimpleDateFormat
 
 
 @Secured(['ROLE_USER', 'ROLE_ADMIN'])
@@ -20,8 +23,10 @@ class ActiveUserController {
     def index() {
 
         def currentUser = springSecurityService.currentUser
+        def lang = RCU.getLocale(request)
 
-        def locations = Location.findAllByUser(currentUser)
+        SimpleDateFormat df2 = new SimpleDateFormat("EEE MMM dd", lang)
+
 
         if (SpringSecurityUtils.ifAllGranted('ROLE_ADMIN')) {
 
@@ -29,9 +34,9 @@ class ActiveUserController {
             redirect(controller: "AdminDashboard")
         }
 
-        def countryNameList = Country.listOrderByCountryName().collect {it.countryName}.minus('United States')
+        /*def locations = Location.findAllByUser(currentUser)
+        def countryNameList = Country.listOrderByCountryName().collect {it.countryName}.minus('United States')*/
         def locationList = Location.findAllByUser(currentUser)
-        def locationCount = locationList.size()
 
         //if there is a location use the last added to supply forecast widget
         //otherwise use default location
@@ -49,13 +54,20 @@ class ActiveUserController {
 
         }
 
+       def x = forecastData .forecastDayList[0].javaDate
+
+
+        def y = df2.format(forecastData .forecastDayList[0].javaDate)
+
         //def cityNameList = servletContext.cities
         //def y = countryNameList.size()
 
-        def jsonList = countryNameList as JSON
+        //def jsonList = countryNameList as JSON
 
-        [locations: locations, currentUser: currentUser, countries: countryNameList , locationList: locationList,
-         locationCount: locationCount, forecastWeather: forecastData , jsonList: jsonList]
+        def jsonList = servletContext.choiceList as JSON
+
+        [ currentUser: currentUser , locationList: locationList,
+          forecastWeather: forecastData , jsonList: jsonList, lang: lang , dateFormatter: df2]
 
     }
 
@@ -65,6 +77,7 @@ class ActiveUserController {
     def showSavedLocationWeather()
     {
         def currentUser = springSecurityService.currentUser
+        def lang = RCU.getLocale(request).toString()
 
         def locations = Location.findAllByUser(currentUser)
 
@@ -77,29 +90,10 @@ class ActiveUserController {
         def jsonList = countryNameList as JSON
 
         render(view: "/activeUser/index", model: [locations: locations, currentUser: currentUser, countries: countryNameList ,
-                                                  locationList: locationList, forecastWeather: forecastData , jsonList: jsonList])
+                                                  locationList: locationList, forecastWeather: forecastData , jsonList: jsonList,
+                                                    lang: lang])
     }
 
-
-    def old_index() {
-
-        def currentUser = springSecurityService.currentUser
-
-        def locations = Location.findAllByUser(currentUser)
-
-        if (SpringSecurityUtils.ifAllGranted('ROLE_ADMIN')) {
-
-
-            redirect(controller: "AdminDashboard")
-        }
-
-        def countryNameList = Country.listOrderByCountryName().collect {it.countryName}
-
-
-
-        [locations: locations, currentUser: currentUser, countries: countryNameList ]
-
-    }
 
 
     def getCities() {
@@ -125,11 +119,51 @@ class ActiveUserController {
 
     def getMatchingCities() {
 
-         [ cityNames: City.findAllByCountry(Country.findByCountryName(params.countryChoice))]
+        def cityList = City.findAllByCountry(Country.findByCountryName(params.countryChoice)).collect {it.cityName}
+        def cityListJSON = cityList as JSON
+
+         [ cityListJSON: cityListJSON, cityList: cityList ]
 
     }
 
     def showWeather() {
+
+        def currentUser = springSecurityService.currentUser
+        def lang = RCU.getLocale(request).toString()
+        def saveOption = true
+
+        //def cityCode = servletContext.citiesMap.find{it.value['3'] == params.cityChoice}.value['2']
+
+        def cityCode = servletContext.citiesMap.find{key, value -> value[3].equals(params.cityChoice)}.value[1]
+
+
+        def values = openweathermapService.currentWeather(cityCode)
+
+
+        def locationList = Location.findAllByUser(currentUser)
+
+
+
+        CurrentWeather currentWeather = values["weatherData"]
+        ForecastWeather forecastWeather = values["fiveDayData"]
+
+        Location currentLocation = values["location"]
+        currentLocation.city = City.findByGeonameID(cityCode)
+        currentLocation.user = currentUser
+
+        def jsonList = servletContext.choiceList as JSON
+
+        render(view: "/activeUser/index", model: [currentWeather: currentWeather, unit: Unit.Imperial ,
+                                                  currentLocation: currentLocation, forecastWeather: forecastWeather, locationList: locationList,
+                                                    jsonList: jsonList, lang: lang, saveOption: saveOption])
+
+    }
+
+
+
+
+
+    def old_showWeather() {
 
         def currentUser = springSecurityService.currentUser
 
@@ -146,7 +180,7 @@ class ActiveUserController {
 
 
         render(view: "/activeUser/index", model: [currentUser: currentUser  ,currentWeather: currentWeather, unit: Unit.Imperial ,
-                                                  currentLocation: currentLocation, forecastWeather: forecastWeather])
+                                                  currentLocation: currentLocation, forecastWeather: forecastWeather, ])
 
     }
 

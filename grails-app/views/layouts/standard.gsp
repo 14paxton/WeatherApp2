@@ -24,82 +24,17 @@
 
 <div class="header" style="padding: 1% 0 0 0 ">
 
-    <sec:ifLoggedIn>
+<sec:ifLoggedIn>
+    <g:if test="${forecastWeather}">
 
-        <g:if test="${forecastWeather}">
-            <div class="w3ls-weather-agileinfo">
-                <div class="weather-left">
-                    <div class="weather-left-text">
-                        <h4>${forecastWeather.cityName}</h4>
-                        <h5>${forecastWeather.forecastDayList[0].date} </h5>
-                    </div>
-                    <ul class="report">
-                        <li><a href="#">${forecastWeather.forecastDayList[0].main.temperature} °F</a></li>
-                        <li><a href="#"><span>${forecastWeather.forecastDayList[0].main.tempCelsius}</span> °C</a></li>
-                    </ul>
-                </div>
-                <div class="weather-right">
-                    <ul>
-                        <li>
-                            <figure class="icons">
-                                <canvas id="partly-cloudy-day" width="30" height="30"></canvas>
-                            </figure>
-                            <h5>${forecastWeather.forecastDayList[8].date}</h5>
-                            <h5>${forecastWeather.forecastDayList[8].main.temperature} °F</h5>
-                            <div class="clear"></div>
-                        </li>
-                        <li>
-                            <figure class="icons">
-                                <canvas id="cloudy" width="30" height="30"></canvas>
-                            </figure>
-                            <h5>${forecastWeather.forecastDayList[16].date}</h5>
-                            <h5>${forecastWeather.forecastDayList[16].main.temperature} °F</h5>
-                            <div class="clear"></div>
-                        </li>
-                        <li>
-                            <figure class="icons">
-                                <canvas id="clear-day" width="30" height="30"></canvas>
-                            </figure>
-                            <h4>${forecastWeather.forecastDayList[24].date}</h4>
-                            <h5>${forecastWeather.forecastDayList[24].main.temperature} °F</h5>
-                            <div class="clear"></div>
-                        </li>
-                        <li>
-                            <figure class="icons">
-                                <canvas id="wind" width="30" height="30"></canvas>
-                            </figure>
-                            <h4>${forecastWeather.forecastDayList[32].date}</h4>
-                            <h5>${forecastWeather.forecastDayList[32].main.temperature} °F</h5>
-                            <div class="clear"></div>
-                        </li>
-                    </ul>
-                    <script>
-                        var icons = new Skycons({"color": "#fff"}),
-                            list  = [
-                                "partly-cloudy-day"
-                            ],
-                            i;
 
-                        for(i = list.length; i--; )
-                            icons.set(list[i], list[i]);
-                        icons.play();
-                    </script>
-                    <script>
-                        var icons = new Skycons({"color": "#fff"}),
-                            list  = [
-                                "clear-night","partly-cloudy-night", "cloudy", "clear-day", "sleet", "snow", "wind","fog"
-                            ],
-                            i;
+                    <g:render template="fiveDayForecast"
+                              model="[forecastWeather: forecastWeather, currentLocation: currentLocation, saveOption: saveOption, dateFormatter: dateFormatter]"/>
 
-                        for(i = list.length; i--; )
-                            icons.set(list[i], list[i]);
-                        icons.play();
-                    </script>
-                </div>
-                <div class="clear"></div>
-            </div>
-        </g:if>
-    </sec:ifLoggedIn>
+    </g:if>
+</sec:ifLoggedIn>
+
+
 
     <div class="container">
         <sec:ifNotLoggedIn>
@@ -143,7 +78,7 @@
                 <a href="/ActiveUser/index"><asset:image src="weathermini.png" width="80" height="80" alt="home"/></a>
             </sec:ifLoggedIn>
             <sec:ifNotLoggedIn>
-                <a  href="/#"><asset:image src="weathermini.png" width="80" height="80" alt="home"/></a>
+                <a  href="/index"><asset:image src="weathermini.png" width="80" height="80" alt="home"/></a>
             </sec:ifNotLoggedIn>
 
         </div>
@@ -191,7 +126,22 @@
     <div class="container">
         <div class="row section group">
 
-
+            <g:if test="${lang as String == 'en_US'}">
+                <sec:ifNotLoggedIn>
+                    <a href="/index?lang=es"><g:message code="change.language" /> </a>
+                </sec:ifNotLoggedIn>
+                <sec:ifLoggedIn>
+                    <a href="/activeUser/index?lang=es"><g:message code="change.language" /> </a>
+                </sec:ifLoggedIn>
+            </g:if>
+            <g:if test="${lang as String == 'es'}">
+                <sec:ifNotLoggedIn>
+                    <a href="/index?lang=en_US"><g:message code="change.language" /> </a>
+                </sec:ifNotLoggedIn>
+                <sec:ifLoggedIn>
+                    <a href="/activeUser/index?lang=en_US"><g:message code="change.language" /> </a>
+                </sec:ifLoggedIn>
+            </g:if>
 
             <div class="clear"></div>
         </div>

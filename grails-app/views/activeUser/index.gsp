@@ -10,8 +10,16 @@
 
     <asset:javascript src="application.js"/>
 
-   %{-- custom script for datatable--}%
-    <asset:javascript src="dataTable.js"/>
+  <g:if test="${lang as String == 'es'}">
+  %{-- custom spanish script for datatable--}%
+      <asset:javascript src="spanishDataTable.js"/>
+  </g:if>
+    <g:else>
+    %{-- custom script for datatable--}%
+        <asset:javascript src="dataTable.js"/>
+    </g:else>
+
+
 
 
 
@@ -25,8 +33,6 @@
 
          var thisList =   <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec>
 
-           //var thisList = ${countries};
-
            $( function() {
        function log( message ) {
          $( "<div>" ).text( message ).prependTo( "#log" );
@@ -34,8 +40,12 @@
        }
 
        $( "#birds" ).autocomplete({
-         source: <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec> ,
-         minLength: 2,
+         source: function(request, response) {
+        var results = $.ui.autocomplete.filter( <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec> , request.term);
+
+        response(results.slice(0, 10));
+    },
+         minLength: 3,
          select: function( event, ui ) {
            log( "Selected: " + ui.item.value + " aka " + ui.item.id );
          }
@@ -45,6 +55,17 @@
 
 
 
+   %{-- <g:javascript>
+    function callMyAjax(){
+    $.ajax({
+    url:'${g.createLink( controller:'ActiveUser', action:'getMatchingCities')}',
+    data:{
+    countryChoice: "USA"
+    }
+    });
+    }
+    </g:javascript>--}%
+
 
 </head>
 <body>
@@ -52,40 +73,25 @@
 
 <div id="content" role="main">
     <section class="row colset-2-its">
+        <g:if test="${currentUser}">
         <h1><g:message code="you.have.logged.in.0" args="[currentUser.email]" /></h1>
+        </g:if>
         <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
         </g:if>
 
-
-        <div id="list-locations" class="content scaffold-list" role="main">
-
-
-
-            <g:if test="${countries}">
+            %{--<g:if test="${countries}">
             <g:form controller="activeUser" action="getCities">
                 <g:select name="countryChoice" from="${countries}"  noSelection="${['null':'Choose your country...']}" onchange="submit()" />
 
             </g:form>
             </g:if>
-
-            <g:formRemote name="countryChoice" update="cities"
-                            url="[controller: 'activeUser', action: 'getMatchingCities()']">
-               Countries: <input type="text" id="birds" class="search_input" placeholder="Choose Your Country" required="required" onchange="submit()" >
-            </g:formRemote>
-            <g:select name="cities" id="cities" from="${cityNames}" noSelection="${['null':'Choose your city...']}" optionKey="geonameID" optionValue="cityName"
-                      onchange="submit()" />
-
-
-
-
-
             <g:if test="${cityNames}">
-            <g:form controller="activeUser" action="showWeather">
-                <g:select name="cityChoice" from="${cityNames}" noSelection="${['null':'Choose your city...']}" optionKey="geonameID" optionValue="cityName"
-                           onchange="submit()" />
+                <g:form controller="activeUser" action="showWeather">
+                    <g:select name="cityChoice" from="${cityNames}" noSelection="${['null':'Choose your city...']}" optionKey="geonameID" optionValue="cityName"
+                              onchange="submit()" />
 
-            </g:form>
+                </g:form>
             </g:if>
             <g:if test="${currentWeather}">
                 <div id="content" role="main">
@@ -96,9 +102,28 @@
                         </g:if>
                     </section>
                 </div>
-            </g:if>
+            </g:if>--}%
 
-            <div class="search">
+
+
+
+
+            <g:form controller="activeUser" action="showWeather">
+                Choose Your Location <input type="text" name="cityChoice" id="birds" class="search_input" placeholder="Choose Your Location" required="required"  >
+                <input class="btn btn-primary" type="submit"  />
+
+            </g:form>
+
+
+
+
+
+
+
+
+
+
+          %{--  <div class="search">
                 <div class="container">
                     <div class="row">
                         <div class="col">
@@ -121,7 +146,7 @@
                 </div>
             </div>
 
-
+--}%
 
 
     <g:if test="${locationList}">
@@ -161,7 +186,6 @@
 
 
 </body>
-
 
 
 </html>

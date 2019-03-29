@@ -10,11 +10,26 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https:////cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
+    <g:if test="${lang as String == 'es'}">
     <g:javascript>
-        $(document).ready( function () {
-            $('#user_table').DataTable();
+        $(document).ready(function() {
+            $('#user_table').dataTable( {
+                "language": {
+                    "url": "https:////cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                }
+            } );
         } );
-</g:javascript>
+   </g:javascript>
+    </g:if>
+    <g:else>
+        <g:javascript>
+            $(document).ready( function () {
+                $('#user_table').DataTable();
+            } );
+        </g:javascript>
+    </g:else>
+
+
 </head>
 <body>
 
