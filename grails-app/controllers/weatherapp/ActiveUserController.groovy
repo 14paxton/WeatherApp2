@@ -77,7 +77,8 @@ class ActiveUserController {
     def showSavedLocationWeather()
     {
         def currentUser = springSecurityService.currentUser
-        def lang = RCU.getLocale(request).toString()
+        def lang = RCU.getLocale(request)
+        SimpleDateFormat df2 = new SimpleDateFormat("EEE MMM dd", lang)
 
         def locations = Location.findAllByUser(currentUser)
 
@@ -91,45 +92,16 @@ class ActiveUserController {
 
         render(view: "/activeUser/index", model: [locations: locations, currentUser: currentUser, countries: countryNameList ,
                                                   locationList: locationList, forecastWeather: forecastData , jsonList: jsonList,
-                                                    lang: lang])
+                                                    lang: lang, dateFormatter: df2])
     }
 
 
-
-    def getCities() {
-
-        def currentUser = springSecurityService.currentUser
-
-       // def cityNameList = servletContext.cities
-
-        def cont = Country.findByCountryName(params.countryChoice)
-
-       // def x = cityNameList.findAll {y -> y.country == {cont}}
-
-
-
-        def matchingCities = City.findAllByCountry(cont)
-
-
-        render(view: "/activeUser/index", model: [currentUser: currentUser  , cityNames: matchingCities])
-
-
-
-    }
-
-    def getMatchingCities() {
-
-        def cityList = City.findAllByCountry(Country.findByCountryName(params.countryChoice)).collect {it.cityName}
-        def cityListJSON = cityList as JSON
-
-         [ cityListJSON: cityListJSON, cityList: cityList ]
-
-    }
 
     def showWeather() {
 
         def currentUser = springSecurityService.currentUser
-        def lang = RCU.getLocale(request).toString()
+        def lang = RCU.getLocale(request)
+        SimpleDateFormat df2 = new SimpleDateFormat("EEE MMM dd", lang)
         def saveOption = true
 
         //def cityCode = servletContext.citiesMap.find{it.value['3'] == params.cityChoice}.value['2']
@@ -155,7 +127,7 @@ class ActiveUserController {
 
         render(view: "/activeUser/index", model: [currentWeather: currentWeather, unit: Unit.Imperial ,
                                                   currentLocation: currentLocation, forecastWeather: forecastWeather, locationList: locationList,
-                                                    jsonList: jsonList, lang: lang, saveOption: saveOption])
+                                                    jsonList: jsonList, lang: lang, saveOption: saveOption, dateFormatter: df2])
 
     }
 
@@ -184,13 +156,6 @@ class ActiveUserController {
 
     }
 
-    def saveLocation()
-    {
-
-    }
-
-
-
 
 
 
@@ -198,6 +163,38 @@ class ActiveUserController {
         Unit unitEnum = Unit.unitWithString(unit)
         CurrentWeather currentWeather = openweathermapService.currentWeather(unitEnum)
         [currentWeather: currentWeather, unit: unitEnum]
+    }
+
+
+
+    def getCities() {
+
+        def currentUser = springSecurityService.currentUser
+
+        // def cityNameList = servletContext.cities
+
+        def cont = Country.findByCountryName(params.countryChoice)
+
+        // def x = cityNameList.findAll {y -> y.country == {cont}}
+
+
+
+        def matchingCities = City.findAllByCountry(cont)
+
+
+        render(view: "/activeUser/index", model: [currentUser: currentUser  , cityNames: matchingCities])
+
+
+
+    }
+
+    def getMatchingCities() {
+
+        def cityList = City.findAllByCountry(Country.findByCountryName(params.countryChoice)).collect {it.cityName}
+        def cityListJSON = cityList as JSON
+
+        [ cityListJSON: cityListJSON, cityList: cityList ]
+
     }
 
 

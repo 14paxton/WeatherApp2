@@ -84,7 +84,7 @@ class OpenweathermapServiceSpec extends Specification implements ServiceUnitTest
         currentWeather.cityName == 'London'
         currentWeather.code == 200
         currentWeather.cityId == 2643743
-        currentWeather.main.temperature == 20.81
+        currentWeather.main.temperature == 20
         currentWeather.main.pressure == 1017
         currentWeather.main.humidity == 53
         currentWeather.main.tempMin == 19

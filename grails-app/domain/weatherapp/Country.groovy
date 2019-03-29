@@ -6,6 +6,7 @@ class Country {
 
 
     String countryName
+    String countryCode
 
 
 

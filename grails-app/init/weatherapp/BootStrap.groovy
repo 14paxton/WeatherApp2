@@ -35,7 +35,15 @@ class BootStrap {
 
         }
         
+      /*
 
+
+        cityList.eachWithIndex { Object entry, int i ->
+
+            entry.each {[ cityName: entry[0] ,geoID: entry[2],
+                          countryName: entry[1], listChoice: entry[1] + ', ' + entry[0] ]}
+        }
+*/
 
 
       /*  def allCityObjects = []

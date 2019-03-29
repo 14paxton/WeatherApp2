@@ -109,7 +109,7 @@
 
 
             <g:form controller="activeUser" action="showWeather">
-                Choose Your Location <input type="text" name="cityChoice" id="birds" class="search_input" placeholder="Choose Your Location" required="required"  >
+                <g:message code="choose.your.location" /> <input type="text" name="cityChoice" id="birds" class="search_input" placeholder="${message(code:"choose.country")}" required="required"  >
                 <input class="btn btn-primary" type="submit"  />
 
             </g:form>
