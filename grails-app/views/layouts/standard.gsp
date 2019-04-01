@@ -75,7 +75,7 @@
     <div class="container">
         <div class="logo">
             <sec:ifLoggedIn>
-                <a href="/ActiveUser/index"><asset:image src="weathermini.png" width="80" height="80" alt="home"/></a>
+                <a href="${createLink(controller: ActiveUser,  action: 'index')}"><asset:image src="weathermini.png" width="80" height="80" alt="home"/></a>
             </sec:ifLoggedIn>
             <sec:ifNotLoggedIn>
                 <a  href="/index"><asset:image src="weathermini.png" width="80" height="80" alt="home"/></a>

@@ -34,12 +34,8 @@ class ActiveUserController {
             redirect(controller: "AdminDashboard")
         }
 
-        /*def locations = Location.findAllByUser(currentUser)
-        def countryNameList = Country.listOrderByCountryName().collect {it.countryName}.minus('United States')*/
         def locationList = Location.findAllByUser(currentUser)
 
-        //if there is a location use the last added to supply forecast widget
-        //otherwise use default location
         def forecastData
 
         if(locationList)
@@ -49,7 +45,7 @@ class ActiveUserController {
         }
         else
         {
-            //default search Hollywood
+
             forecastData = openweathermapService.GetForecastFromString("http://api.openweathermap.org/data/2.5/forecast?id=4158928&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial")
 
         }
@@ -59,10 +55,7 @@ class ActiveUserController {
 
         def y = df2.format(forecastData .forecastDayList[0].javaDate)
 
-        //def cityNameList = servletContext.cities
-        //def y = countryNameList.size()
 
-        //def jsonList = countryNameList as JSON
 
         def jsonList = servletContext.choiceList as JSON
 
@@ -100,34 +93,53 @@ class ActiveUserController {
     def showWeather() {
 
         def currentUser = springSecurityService.currentUser
+        def locationList = Location.findAllByUser(currentUser)
         def lang = RCU.getLocale(request)
-        SimpleDateFormat df2 = new SimpleDateFormat("EEE MMM dd", lang)
+        def df2 = new SimpleDateFormat("EEE MMM dd", lang)
         def saveOption = true
 
-        //def cityCode = servletContext.citiesMap.find{it.value['3'] == params.cityChoice}.value['2']
+        def cityChoice = servletContext.citiesMap.find{key, value -> value[3].equals(params.cityChoice)}
 
-        def cityCode = servletContext.citiesMap.find{key, value -> value[3].equals(params.cityChoice)}.value[1]
+        if(cityChoice == null)
+        {
+            flash.message = "No Country By That Name"
+            redirect(action: "index")
+        }
+        else
+        {
+            def cityCode = cityChoice.value[1]
+
+            if(cityCode == null){
+
+                flash.message = "No info for that country"
+                redirect controller:"ActiveUser", action:"index", method:"GET"
+
+            }
+            else{
+
+                def values = openweathermapService.currentWeather(cityCode)
 
 
-        def values = openweathermapService.currentWeather(cityCode)
+
+                CurrentWeather currentWeather = values["weatherData"]
+                ForecastWeather forecastWeather = values["fiveDayData"]
+
+                Location currentLocation = values["location"]
+                currentLocation.city = City.findByGeonameID(cityCode)
+                currentLocation.user = currentUser
+
+                def jsonList = servletContext.choiceList as JSON
+
+                render(view: "/activeUser/index", model: [currentWeather: currentWeather, unit: Unit.Imperial ,
+                                                          currentLocation: currentLocation, forecastWeather: forecastWeather, locationList: locationList,
+                                                          jsonList: jsonList, lang: lang, saveOption: saveOption, dateFormatter: df2])
+            }
 
 
-        def locationList = Location.findAllByUser(currentUser)
+
+        }
 
 
-
-        CurrentWeather currentWeather = values["weatherData"]
-        ForecastWeather forecastWeather = values["fiveDayData"]
-
-        Location currentLocation = values["location"]
-        currentLocation.city = City.findByGeonameID(cityCode)
-        currentLocation.user = currentUser
-
-        def jsonList = servletContext.choiceList as JSON
-
-        render(view: "/activeUser/index", model: [currentWeather: currentWeather, unit: Unit.Imperial ,
-                                                  currentLocation: currentLocation, forecastWeather: forecastWeather, locationList: locationList,
-                                                    jsonList: jsonList, lang: lang, saveOption: saveOption, dateFormatter: df2])
 
     }
 

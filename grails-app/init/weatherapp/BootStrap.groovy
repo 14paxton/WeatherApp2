@@ -35,31 +35,7 @@ class BootStrap {
 
         }
         
-      /*
 
-
-        cityList.eachWithIndex { Object entry, int i ->
-
-            entry.each {[ cityName: entry[0] ,geoID: entry[2],
-                          countryName: entry[1], listChoice: entry[1] + ', ' + entry[0] ]}
-        }
-*/
-
-
-      /*  def allCityObjects = []
-
-        cityList.each {allCityObjects.push( City.findWhere(cityName: it[0], geonameID: it[2], country: it[1]))}*/
-
-
-
-
-
-        /*cityMap = cityList.collect{[ cityName: it[0] ,geoID: it[2],
-                                     countryName: it[1], listChoice: it[1].countryName + ', ' + it[0] ] }*/
-
-
-    /*    cityList.each{  cityMap["${i}"] =[ cityName: it[0],geoID: it[2],
-                                   countryName: it[1], listChoice: it[1].countryName + ', ' + it[0] ] }*/
 
 
         cityList.eachWithIndex{ list , index -> cityMap[index] =[ list[0] ,list[2],
