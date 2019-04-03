@@ -60,7 +60,7 @@ class ActiveUserController {
         def jsonList = servletContext.choiceList as JSON
 
         [ currentUser: currentUser , locationList: locationList,
-          forecastWeather: forecastData , jsonList: jsonList, lang: lang , dateFormatter: df2]
+          forecastWeather: forecastData , jsonList: jsonList, lang: lang , dateFormatter: df2, encoding: "UTF-8"]
 
     }
 
@@ -160,7 +160,33 @@ class ActiveUserController {
     }
 
 
+    //method to get info for 5 day forcast and populate widget
 
+    def showForecast(Long id) {
+
+        def currentUser = springSecurityService.currentUser
+        def locationList = Location.findAllByUser(currentUser)
+        def lang = RCU.getLocale(request)
+        def df2 = new SimpleDateFormat("EEE MMM dd", lang)
+        def saveOption = true
+
+
+        def values = openweathermapService.currentWeather(id)
+
+
+        //CurrentWeather currentWeather = values["weatherData"]
+        ForecastWeather forecastWeather = values["fiveDayData"]
+
+        Location currentLocation = values["location"]
+        currentLocation.city = City.findByGeonameID(id)
+        currentLocation.user = currentUser
+
+        def jsonList = servletContext.choiceList as JSON
+
+        render(view: "/activeUser/index", model: [ currentLocation: currentLocation, forecastWeather: forecastWeather, locationList: locationList,
+                                                  jsonList: jsonList, lang: lang, saveOption: saveOption, dateFormatter: df2])
+
+    }
 
 
     def old_showWeather() {

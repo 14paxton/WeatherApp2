@@ -17,7 +17,7 @@ class AdminDashboardController {
         def lang = RequestContextUtils.getLocale(request)
         def allUsers = User.findAll()
         allUsers.remove(currentUser)
-        respond(currentUser: currentUser, allUsers: allUsers, lang: lang)
+        render (view: "index" ,  model: [currentUser: currentUser, allUsers: allUsers, lang: lang], encoding: "UTF-8")
 
 
 

@@ -54,25 +54,6 @@
        </g:javascript>
 
 
-   %{-- <g:javascript type="text/javascript">
-    $( document ).ready( function() {
-
-    $("button.btn-primary").click(function(event){
-
-    // alert("here")
-
-    var city = document.getElementById('cityList').value;
-
-    //var city = 'houston';
-    $.ajax({
-    --}%%{--url: "${g.createLink( controller:'activeUser', action:'getCurrentWeather')}?cityChoice="+city,--}%%{--
-    url: '/ActiveUser/getCurrentWeather?cityChoice=' + city,
-    type: 'post',
-    dataType: 'html'
-    }).success( function ( data ) { $( '#curWeather' ).html( data ); });
-    })
-    });
-    </g:javascript>--}%
     <g:javascript type="text/javascript">
     $(document).ready(function(){
     $("button.btn-primary").click(function(){
