@@ -1,0 +1,8 @@
+import weatherapp.*
+
+
+model{
+    Location location
+}
+
+json g.render(location)

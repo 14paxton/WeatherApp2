@@ -12,7 +12,8 @@ class UrlMappings {
 
         "/"(controller: "Default" , action: "index")
         "/index"(controller: "Default" , action: "index")
-        "500"(view:'/error')
+        "500"(controller: "Errors", action: "index")
+        "503"(controller: "Errors", action: "index")
         "404"(view:'/notFound')
     }
 }

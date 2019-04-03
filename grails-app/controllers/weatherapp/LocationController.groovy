@@ -12,9 +12,11 @@ class LocationController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond locationService.list(params), model:[locationCount: locationService.count()]
+    def index(Long id) {
+        Location location = Location.findById(id)
+
+        respond(location: location)
+
     }
 
     def show(Long id) {

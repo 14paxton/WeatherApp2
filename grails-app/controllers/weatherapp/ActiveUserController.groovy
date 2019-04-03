@@ -143,6 +143,22 @@ class ActiveUserController {
 
     }
 
+    //this should return  and render the current weather template on the page
+    // this is being called from an ajax call upon submit of location
+    def getCurrentWeather()
+    {
+        def cityChoice = servletContext.citiesMap.find{key, value -> value[3].equals(params.cityChoice)}
+        def cityCode = cityChoice.value[1]
+        def values = openweathermapService.currentWeather(cityCode)
+        CurrentWeather currentWeather = values["weatherData"]
+
+        render  template: 'currentWeather', model: [currentWeather: currentWeather]
+
+
+
+
+    }
+
 
 
 

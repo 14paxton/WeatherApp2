@@ -14,6 +14,8 @@
 
 
     <g:layoutHead/>
+
+
 </head>
 <body>
 <!-- start header_top -->

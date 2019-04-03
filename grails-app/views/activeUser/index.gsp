@@ -39,19 +39,56 @@
          $( "#log" ).scrollTop( 0 );
        }
 
-       $( "#birds" ).autocomplete({
+       $( "#cityList" ).autocomplete({
          source: function(request, response) {
         var results = $.ui.autocomplete.filter( <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec> , request.term);
 
         response(results.slice(0, 10));
     },
-         minLength: 3,
+         minLength: 2,
          select: function( event, ui ) {
            log( "Selected: " + ui.item.value + " aka " + ui.item.id );
          }
        });
      } );
        </g:javascript>
+
+
+   %{-- <g:javascript type="text/javascript">
+    $( document ).ready( function() {
+
+    $("button.btn-primary").click(function(event){
+
+    // alert("here")
+
+    var city = document.getElementById('cityList').value;
+
+    //var city = 'houston';
+    $.ajax({
+    --}%%{--url: "${g.createLink( controller:'activeUser', action:'getCurrentWeather')}?cityChoice="+city,--}%%{--
+    url: '/ActiveUser/getCurrentWeather?cityChoice=' + city,
+    type: 'post',
+    dataType: 'html'
+    }).success( function ( data ) { $( '#curWeather' ).html( data ); });
+    })
+    });
+    </g:javascript>--}%
+    <g:javascript type="text/javascript">
+    $(document).ready(function(){
+    $("button.btn-primary").click(function(){
+    var city = document.getElementById('cityList').value;
+    $.ajax( {
+    url: "${g.createLink( controller:'activeUser', action:'getCurrentWeather')}" ,
+    type: 'POST',
+    data: {cityChoice: city},
+    success: function(result){
+        console.log("here");
+    $("#curWeather").html(result);
+    }  // end success function
+    }); //end ajax call
+    }); //end click function
+    }); //end ready function
+    </g:javascript>
 
 
 
@@ -69,14 +106,36 @@
         </g:if>
 
 
+        %{--<g:form controller="activeUser" action="showWeather">
+            <g:message code="choose.your.location" /> <input type="text" name="cityChoice" id="cityList" class="search_input" placeholder="${message(code:"choose.country")}" required="required"  >
+            <input class="btn btn-primary" type="submit"  />
+
+        </g:form>--}%
 
 
 
-            <g:form controller="activeUser" action="showWeather">
-                <g:message code="choose.your.location" /> <input type="text" name="cityChoice" id="birds" class="search_input" placeholder="${message(code:"choose.country")}" required="required"  >
-                <input class="btn btn-primary" type="submit"  />
+    <div>
+        <g:message code="choose.your.location" /> <input type="text" name="cityChoice" id="cityList" class="search_input" placeholder="${message(code:"choose.country")}" required="required"  >
+        <button class="btn btn-primary" type="button">Submit </button>
+        <div id="curWeather" style="float: right">
+
+
+        </div>
+    </div>
+
+        %{--<g:form controller="activeUser" action="getCurrentWeather">
+                <g:message code="choose.your.location" /> <input type="text" name="cityChoice" id="cityList" class="search_input" placeholder="${message(code:"choose.country")}" required="required"  >
+            <button class="btn btn-primary" type="submit" >Submit</button>
 
             </g:form>
+--}%
+
+
+
+
+
+
+
 
 
 
@@ -91,6 +150,7 @@
                 <tr>
                     <th><g:message code="city" /></th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -98,6 +158,7 @@
                     <tr>
 
                         <td><a href="${createLink(controller: "ActiveUser",  action: 'showSavedLocationWeather', params: [locationURL: loc.fiveDayWeatherCall])}">${loc.city.cityName}</a></td>
+                        <td><a href="${createLink(controller: 'Location',  action: 'index', id: loc.id)}">JSON</a></td>
 
                         <td><g:form controller="location" action="delete" id="${loc.id}" method="DELETE">
                             <input class="btn btn-primary" type="submit" value="${message(code:"delete.location")}" />
@@ -115,6 +176,38 @@
 
 
 
+
+
+%{--<g:javascript>
+
+    /*jslint browser:true */
+    'use strict';
+
+    var weatherConditions = new XMLHttpRequest();
+    var weatherForecast = new XMLHttpRequest();
+    var cObj;
+
+    // GET THE CONDITIONS
+    weatherConditions.open('GET', 'http://api.openweathermap.org/data/2.5/weather?id=4158928&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial', true);
+    weatherConditions.responseType = 'text';
+    weatherConditions.send(null);
+
+    weatherConditions.onload = function() {
+        if (weatherConditions.status === 200){
+            cObj = JSON.parse(weatherConditions.responseText);
+            console.log(cObj);
+            document.getElementById('location').innerHTML=cObj.name;
+
+            document.getElementById('weather').innerHTML=cObj.weather[0].description;
+            document.getElementById('temperature').innerHTML=cObj.main.temp;
+            document.getElementById('desc').innerHTML="Wind Speed" + cObj.wind.speed;
+
+
+        } //end if
+    }; //end function
+
+
+</g:javascript>--}%
 
 
 
