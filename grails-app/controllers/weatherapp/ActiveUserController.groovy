@@ -57,15 +57,18 @@ class ActiveUserController {
         def y = df2.format(forecastData .forecastDayList[0].javaDate)
 
 
-
-        def jsonList = servletContext.choiceList as JSON
+        // json list originally used to populate user choices,
+        // now use getLocationChoiceList() with ajax call
+       // def jsonList = servletContext.choiceList as JSON
 
         [ currentUser: currentUser , locationList: locationList,
-          forecastWeather: forecastData , jsonList: jsonList, lang: lang , dateFormatter: df2, encoding: "UTF-8"]
+          forecastWeather: forecastData ,  lang: lang , dateFormatter: df2, encoding: "UTF-8"]
 
     }
 
 
+
+    //method called by ajax to populate the user choice list for autocomplete
     def getLocationChoiceList()
     {
         def jsonList = servletContext.choiceList
@@ -90,10 +93,10 @@ class ActiveUserController {
         def  forecastData = openweathermapService.GetForecastFromString(params.locationURL)
 
 
-        def jsonList = countryNameList as JSON
+        //def jsonList = countryNameList as JSON
 
         render(view: "/activeUser/index", model: [locations: locations, currentUser: currentUser, countries: countryNameList ,
-                                                  locationList: locationList, forecastWeather: forecastData , jsonList: jsonList,
+                                                  locationList: locationList, forecastWeather: forecastData ,
                                                     lang: lang, dateFormatter: df2])
     }
 
@@ -139,12 +142,37 @@ class ActiveUserController {
         currentLocation.city = City.findByGeonameID(id)
         currentLocation.user = currentUser
 
-        def jsonList = servletContext.choiceList as JSON
+        //def jsonList = servletContext.choiceList as JSON
 
         render(view: "/activeUser/index", model: [ currentLocation: currentLocation, forecastWeather: forecastWeather, locationList: locationList,
-                                                  jsonList: jsonList, lang: lang, saveOption: saveOption, dateFormatter: df2])
+                                                  lang: lang, saveOption: saveOption, dateFormatter: df2])
 
     }
+
+
+
+
+
+
+   /* testing method for testing tests */
+
+
+    def test(){
+
+
+        render  template: 'currentWeather'
+
+    }
+
+
+
+
+
+
+
+
+
+   /* old methods saved for references*/
 
 
 
@@ -186,11 +214,11 @@ class ActiveUserController {
                 currentLocation.city = City.findByGeonameID(cityCode)
                 currentLocation.user = currentUser
 
-                def jsonList = servletContext.choiceList as JSON
+                //def jsonList = servletContext.choiceList as JSON
 
                 render(view: "/activeUser/index", model: [currentWeather: currentWeather, unit: Unit.Imperial ,
                                                           currentLocation: currentLocation, forecastWeather: forecastWeather, locationList: locationList,
-                                                          jsonList: jsonList, lang: lang, saveOption: saveOption, dateFormatter: df2])
+                                                           lang: lang, saveOption: saveOption, dateFormatter: df2])
             }
 
 

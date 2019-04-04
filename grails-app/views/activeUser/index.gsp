@@ -46,7 +46,6 @@
     dataType: "json",
     error: function(xhr){console.log(JSON.parse(xhr.responseText));},
     success: function(result){
-        console.log(result);
 
         listJSON = result ;
 
