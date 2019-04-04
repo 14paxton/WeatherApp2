@@ -31,17 +31,33 @@
     <g:javascript>
 
 
-         var thisList =   <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec>
+        %{--var thisList =   <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec>--}%
 
-           $( function() {
-       function log( message ) {
-         $( "<div>" ).text( message ).prependTo( "#log" );
-         $( "#log" ).scrollTop( 0 );
-       }
+        $(document).ready( function() {
+    function log( message ) {
+      $( "<div>" ).text( message ).prependTo( "#log" );
+      $( "#log" ).scrollTop( 0 );
+    }
 
-       $( "#cityList" ).autocomplete({
-         source: function(request, response) {
-        var results = $.ui.autocomplete.filter( <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec> , request.term);
+    var listJSON ;
+
+    $.ajax( {
+    url: "${g.createLink(controller: 'activeUser', action: 'getLocationChoiceList')}",
+    dataType: "json",
+    error: function(xhr){console.log(JSON.parse(xhr.responseText));},
+    success: function(result){
+        console.log(result);
+
+        listJSON = result ;
+
+    }  // end success function
+    }); //end ajax call
+
+
+    $( "#cityList" ).autocomplete({
+      source: function(request, response) {
+     var results = $.ui.autocomplete.filter( listJSON,
+         request.term);
 
         response(results.slice(0, 10));
     },
@@ -63,7 +79,6 @@
     type: 'POST',
     data: {cityChoice: city},
     success: function(result){
-        console.log("here");
     $("#curWeather").html(result);
     }  // end success function
     }); //end ajax call

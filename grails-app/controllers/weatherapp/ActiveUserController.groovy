@@ -10,6 +10,7 @@ import openweathermap.OpenweathermapService
 import openweathermap.Unit
 import app.admin.security.*
 import org.springframework.web.servlet.support.RequestContextUtils as RCU
+import sun.security.ec.ECDSASignature
 
 import java.text.SimpleDateFormat
 
@@ -65,6 +66,14 @@ class ActiveUserController {
     }
 
 
+    def getLocationChoiceList()
+    {
+        def jsonList = servletContext.choiceList
+
+        render jsonList as JSON
+    }
+
+
 
 
     def showSavedLocationWeather()
@@ -86,6 +95,55 @@ class ActiveUserController {
         render(view: "/activeUser/index", model: [locations: locations, currentUser: currentUser, countries: countryNameList ,
                                                   locationList: locationList, forecastWeather: forecastData , jsonList: jsonList,
                                                     lang: lang, dateFormatter: df2])
+    }
+
+
+
+
+
+    //this should return  and render the current weather template on the page
+    // this is being called from an ajax call upon submit of location
+    def getCurrentWeather()
+    {
+        def cityChoice = servletContext.citiesMap.find{key, value -> value[3].equals(params.cityChoice)}
+        def cityCode = cityChoice.value[1]
+        def values = openweathermapService.currentWeather(cityCode)
+        CurrentWeather currentWeather = values["weatherData"]
+
+        render  template: 'currentWeather', model: [currentWeather: currentWeather]
+
+
+
+
+    }
+
+
+    //method to get info for 5 day forcast and populate widget
+
+    def showForecast(Long id) {
+
+        def currentUser = springSecurityService.currentUser
+        def locationList = Location.findAllByUser(currentUser)
+        def lang = RCU.getLocale(request)
+        def df2 = new SimpleDateFormat("EEE MMM dd", lang)
+        def saveOption = true
+
+
+        def values = openweathermapService.currentWeather(id)
+
+
+        //CurrentWeather currentWeather = values["weatherData"]
+        ForecastWeather forecastWeather = values["fiveDayData"]
+
+        Location currentLocation = values["location"]
+        currentLocation.city = City.findByGeonameID(id)
+        currentLocation.user = currentUser
+
+        def jsonList = servletContext.choiceList as JSON
+
+        render(view: "/activeUser/index", model: [ currentLocation: currentLocation, forecastWeather: forecastWeather, locationList: locationList,
+                                                  jsonList: jsonList, lang: lang, saveOption: saveOption, dateFormatter: df2])
+
     }
 
 
@@ -140,51 +198,6 @@ class ActiveUserController {
         }
 
 
-
-    }
-
-    //this should return  and render the current weather template on the page
-    // this is being called from an ajax call upon submit of location
-    def getCurrentWeather()
-    {
-        def cityChoice = servletContext.citiesMap.find{key, value -> value[3].equals(params.cityChoice)}
-        def cityCode = cityChoice.value[1]
-        def values = openweathermapService.currentWeather(cityCode)
-        CurrentWeather currentWeather = values["weatherData"]
-
-        render  template: 'currentWeather', model: [currentWeather: currentWeather]
-
-
-
-
-    }
-
-
-    //method to get info for 5 day forcast and populate widget
-
-    def showForecast(Long id) {
-
-        def currentUser = springSecurityService.currentUser
-        def locationList = Location.findAllByUser(currentUser)
-        def lang = RCU.getLocale(request)
-        def df2 = new SimpleDateFormat("EEE MMM dd", lang)
-        def saveOption = true
-
-
-        def values = openweathermapService.currentWeather(id)
-
-
-        //CurrentWeather currentWeather = values["weatherData"]
-        ForecastWeather forecastWeather = values["fiveDayData"]
-
-        Location currentLocation = values["location"]
-        currentLocation.city = City.findByGeonameID(id)
-        currentLocation.user = currentUser
-
-        def jsonList = servletContext.choiceList as JSON
-
-        render(view: "/activeUser/index", model: [ currentLocation: currentLocation, forecastWeather: forecastWeather, locationList: locationList,
-                                                  jsonList: jsonList, lang: lang, saveOption: saveOption, dateFormatter: df2])
 
     }
 
