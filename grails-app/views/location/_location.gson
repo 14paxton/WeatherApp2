@@ -5,4 +5,15 @@ model{
     Location location
 }
 
-json g.render(location)
+/*json g.render(location)*/
+
+json{
+
+    id   location.id
+    city location.city.cityName
+    user location.user.email
+    currentWeather location.currentWeatherCall
+    fiveDayForcast location.fiveDayWeatherCall
+
+
+}
