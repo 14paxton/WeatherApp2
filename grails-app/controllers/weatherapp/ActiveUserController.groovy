@@ -20,6 +20,7 @@ class ActiveUserController {
 
     def springSecurityService
     OpenweathermapService openweathermapService
+    ActiveUserService     activeUserService
 
     def index() {
 
@@ -108,10 +109,8 @@ class ActiveUserController {
     // this is being called from an ajax call upon submit of location
     def getCurrentWeather()
     {
-        def cityChoice = servletContext.citiesMap.find{key, value -> value[3].equals(params.cityChoice)}
-        def cityCode = cityChoice.value[1]
-        def values = openweathermapService.currentWeather(cityCode)
-        CurrentWeather currentWeather = values["weatherData"]
+
+        def currentWeather = activeUserService.getCurrentWeatherValues(params.cityChoice, servletContext.citiesMap)
 
         render  template: 'currentWeather', model: [currentWeather: currentWeather]
 
@@ -160,7 +159,7 @@ class ActiveUserController {
     def test(){
 
 
-        render  template: 'currentWeather'
+
 
     }
 

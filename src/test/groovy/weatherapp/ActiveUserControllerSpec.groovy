@@ -4,6 +4,7 @@ import grails.plugin.springsecurity.SpringSecurityService
 import grails.testing.web.controllers.ControllerUnitTest
 import spock.lang.Specification
 
+
 class ActiveUserControllerSpec extends Specification implements ControllerUnitTest<ActiveUserController> {
 
     def setup() {
@@ -26,9 +27,6 @@ class ActiveUserControllerSpec extends Specification implements ControllerUnitTe
     }
 
     void "test that currentWeather template renders"() {
-        given:
-        Map citiesMap = [0 : [ 0 : "city" , 1 : "geocode" , 2 : "country" , 3 : "country, city" ]]
-
 
 
         when:
