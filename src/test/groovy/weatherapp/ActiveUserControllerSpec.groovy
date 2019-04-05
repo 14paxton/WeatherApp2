@@ -2,8 +2,8 @@ package weatherapp
 
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.testing.web.controllers.ControllerUnitTest
+import openweathermap.CurrentWeather
 import spock.lang.Specification
-
 
 class ActiveUserControllerSpec extends Specification implements ControllerUnitTest<ActiveUserController> {
 
@@ -29,8 +29,9 @@ class ActiveUserControllerSpec extends Specification implements ControllerUnitTe
     void "test that currentWeather template renders"() {
 
 
+
         when:
-        params.cityChoice = "country, city"
+        def currentWeather = Mock(CurrentWeather)
         views['/activeUser/_currentWeather.gsp'] = 'mock template contents'
         controller.getCurrentWeather()
 
