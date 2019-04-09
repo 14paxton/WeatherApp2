@@ -49,7 +49,7 @@ class ActiveUserControllerSpec extends Specification implements ControllerUnitTe
 
     void "test that currentWeather template renders"() {
 
-        given:
+        given: "using a map with dummy data and mocking the services used"
         def  dummyCurrentWeather = ["weatherData" : "testData"]
 
         controller.openweathermapService = Mock(OpenweathermapService)
@@ -60,13 +60,13 @@ class ActiveUserControllerSpec extends Specification implements ControllerUnitTe
         controller.openweathermapService.currentWeatherByGeoID(_) >> dummyCurrentWeather
 
 
-        when:
+        when: "you mock the template being used and clal the method"
         views['/activeUser/_currentWeather.gsp'] = 'mock template contents'
         controller.getCurrentWeather()
 
 
 
-        then:
+        then: "the response with show the rendered template"
         response.text == 'mock template contents'
 
 
@@ -77,7 +77,8 @@ class ActiveUserControllerSpec extends Specification implements ControllerUnitTe
 
     void "check response status of method"() {
 
-        given:
+        given: "setting up the Map with a current weather object, mocking the servivces used," +
+                "and stubbing values in to the method calls"
         def testMap = [:]
 
 
@@ -92,13 +93,13 @@ class ActiveUserControllerSpec extends Specification implements ControllerUnitTe
         controller.openweathermapService.currentWeatherByGeoID(_) >> testMap
 
 
-        when:
+        when: "the method is run"
         controller.getCurrentWeather()
 
 
 
 
-        then:
+        then: "you should get a response of 200"
 
         response.status == 200
 
