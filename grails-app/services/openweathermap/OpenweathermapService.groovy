@@ -30,7 +30,7 @@ class OpenweathermapService implements GrailsConfigurationAware {
 
 
     @CompileDynamic
-    Map currentWeather(Long geoID) {
+    Map currentWeatherByGeoID(Long geoID) {
         RestBuilder rest = new RestBuilder()
         String url = "http://api.openweathermap.org/data/2.5/weather?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"
         String fiveDayUrl =  "http://api.openweathermap.org/data/2.5/forecast?id=${geoID}&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial"

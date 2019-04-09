@@ -23,12 +23,11 @@ class ActiveUserService {
 
     //method used for getting values for the current weather from
     // the users selected location
-    def getCurrentWeatherValues(String locationChoice, def citiesMap )
+    def getCityCode(String locationChoice, def citiesMap )
     {
         def cityChoice = citiesMap.find{key, value -> value[3].equals(locationChoice)}
-        def cityCode = cityChoice.value[1]
-        def values = openweathermapService.currentWeather(cityCode)
-        CurrentWeather currentWeather = values["weatherData"]
+         cityChoice.value[1]
+
 
     }
 

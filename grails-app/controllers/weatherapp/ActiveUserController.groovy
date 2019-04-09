@@ -29,7 +29,7 @@ class ActiveUserController {
 
         SimpleDateFormat df2 = new SimpleDateFormat("EEE MMM dd", lang)
 
-
+        //If an admin logs in they are redirected to the admin page
         if (SpringSecurityUtils.ifAllGranted('ROLE_ADMIN')) {
 
 
@@ -51,11 +51,6 @@ class ActiveUserController {
             forecastData = openweathermapService.GetForecastFromString("http://api.openweathermap.org/data/2.5/forecast?id=4158928&APPID=097e124b838ecac32ee6299a03694e0d&&units=imperial")
 
         }
-
-       def x = forecastData .forecastDayList[0].javaDate
-
-
-        def y = df2.format(forecastData .forecastDayList[0].javaDate)
 
 
         // json list originally used to populate user choices,
@@ -88,15 +83,12 @@ class ActiveUserController {
 
         def locations = Location.findAllByUser(currentUser)
 
-        def countryNameList = Country.listOrderByCountryName().collect {it.countryName}.minus('United States')
         def locationList = Location.findAllByUser(currentUser)
 
         def  forecastData = openweathermapService.GetForecastFromString(params.locationURL)
 
 
-        //def jsonList = countryNameList as JSON
-
-        render(view: "/activeUser/index", model: [locations: locations, currentUser: currentUser, countries: countryNameList ,
+        render(view: "/activeUser/index", model: [locations: locations, currentUser: currentUser,
                                                   locationList: locationList, forecastWeather: forecastData ,
                                                     lang: lang, dateFormatter: df2])
     }
@@ -110,12 +102,12 @@ class ActiveUserController {
     def getCurrentWeather()
     {
 
-        def currentWeather = activeUserService.getCurrentWeatherValues(params.cityChoice, servletContext.citiesMap)
+        def cityCode = activeUserService.getCityCode(params.cityChoice, servletContext.citiesMap)
+
+        def values = openweathermapService.currentWeatherByGeoID(cityCode)
+        def currentWeather = values["weatherData"]
 
         render  template: 'currentWeather', model: [currentWeather: currentWeather]
-
-
-
 
     }
 
@@ -131,17 +123,14 @@ class ActiveUserController {
         def saveOption = true
 
 
-        def values = openweathermapService.currentWeather(id)
+        def values = openweathermapService.currentWeatherByGeoID(id)
 
-
-        //CurrentWeather currentWeather = values["weatherData"]
         ForecastWeather forecastWeather = values["fiveDayData"]
 
         Location currentLocation = values["location"]
         currentLocation.city = City.findByGeonameID(id)
         currentLocation.user = currentUser
 
-        //def jsonList = servletContext.choiceList as JSON
 
         render(view: "/activeUser/index", model: [ currentLocation: currentLocation, forecastWeather: forecastWeather, locationList: locationList,
                                                   lang: lang, saveOption: saveOption, dateFormatter: df2])
