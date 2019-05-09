@@ -1,0 +1,12 @@
+INFO weatherapp.Application - Starting Application on TPLNK-BPAXTON with PID 6376 (C:\Groovy\WeatherApp-master\build\classes\main started by bpaxton in C:\Groovy\WeatherApp-master)
+DEBUG weatherapp.Application - Running with Spring Boot v1.5.18.RELEASE, Spring v4.3.21.RELEASE
+INFO weatherapp.Application - The following profiles are active: development
+INFO weatherapp.Application - Started Application in 44.823 seconds (JVM running for 49.769)
+DEBUG weatherapp.ActiveUserController - this is working
+DEBUG weatherapp.ActiveUserController - this is working
+INFO weatherapp.Application - Starting Application on TPLNK-BPAXTON with PID 13780 (C:\Groovy\WeatherApp-master\build\classes\main started by bpaxton in C:\Groovy\WeatherApp-master)
+DEBUG weatherapp.Application - Running with Spring Boot v1.5.18.RELEASE, Spring v4.3.21.RELEASE
+INFO weatherapp.Application - The following profiles are active: development
+INFO weatherapp.Application - Started Application in 45.765 seconds (JVM running for 50.609)
+DEBUG weatherapp.ActiveUserController - this is working
+INFO weatherapp.ActiveUserController - this is some info

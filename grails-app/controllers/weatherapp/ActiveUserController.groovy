@@ -24,6 +24,9 @@ class ActiveUserController {
 
     def index() {
 
+        log.debug("this is working")
+        log.info("this is some info")
+
         def currentUser = springSecurityService.currentUser
         def lang = RCU.getLocale(request)
 
@@ -36,7 +39,7 @@ class ActiveUserController {
             redirect(controller: "AdminDashboard")
         }
 
-        def locationList = Location.findAllByUser(currentUser)
+        def locationList = Location.findAllByUser(currentUser, [cache: true])
 
         def forecastData
 

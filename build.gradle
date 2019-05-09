@@ -42,18 +42,24 @@ dependencies {
     compile "org.grails:grails-plugin-services"
     compile "org.grails:grails-plugin-url-mappings"
     compile "org.grails:grails-plugin-interceptors"
-    compile "org.grails.plugins:cache"
     compile "org.grails.plugins:async"
     compile "org.grails.plugins:scaffolding"
     compile "org.grails.plugins:events"
-    compile "org.grails.plugins:hibernate5"
+    
+    //hibernate and cache
+    compile "org.grails.plugins:hibernate5:$gormVersion"
+    compile "org.grails.plugins:cache"
     compile "org.hibernate:hibernate-core:5.1.16.Final"
+    compile "org.hibernate:hibernate-ehcache:5.1.0.Final"
+    
+    
     compile "org.grails.plugins:gsp"
     compile 'org.grails.plugins:spring-security-core:3.2.3'
     compile "org.grails:grails-datastore-rest-client"
     compile 'org.grails.plugins:ajax-tags:1.0.0'
     compile 'org.grails.plugins:ajax-tags:1.0.0.RC1'
     compile "org.grails.plugins:views-json:1.2.4"
+    compile 'com.auth0:mvc-auth-commons:1.+'
     console "org.grails:grails-console"
     profile "org.grails.profiles:web"
     runtime "org.glassfish.web:el-impl:2.1.2-b03"
@@ -67,6 +73,15 @@ dependencies {
     testCompile 'com.stehno.ersatz:ersatz:1.5.0'
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+    
+    
+    //Auth0
+    compile 'com.auth0:mvc-auth-commons:1.+'
+    compile 'com.auth0:auth0:1.5.0'
+    
+    
+    //Caching
+    //compile "org.grails.plugins:cache-ehcache:3.0.0.BUILD-SNAPSHOT"
 }
 
 bootRun {

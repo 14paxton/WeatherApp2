@@ -1,3 +1,4 @@
+import ch.qos.logback.core.util.FileSize
 import grails.util.BuildSettings
 import grails.util.Environment
 import org.springframework.boot.logging.logback.ColorConverter
@@ -33,4 +34,23 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
 }
-root(ERROR, ['STDOUT'])
+
+def HOME_DIR = "c:/Groovy/WeatherApp-master"
+
+appender("ROLLING", RollingFileAppender) {
+    encoder(PatternLayoutEncoder) {
+        pattern = "%level %logger - %msg%n"
+    }
+    rollingPolicy(TimeBasedRollingPolicy) {
+        fileNamePattern = "${HOME_DIR}/logs/myApp-%d{yyyy-MM-dd}.log"
+        maxHistory = 30
+        totalSizeCap = FileSize.valueOf("2GB")
+    }
+}
+
+
+
+root(ERROR, ['ROLLING'])
+
+logger('weatherapp', DEBUG, ['ROLLING'], false)
+

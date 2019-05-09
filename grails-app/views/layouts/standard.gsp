@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -102,7 +102,6 @@
                     </li>
                 </sec:ifLoggedIn>
             </ul>
-            <script type="text/javascript" src="js/nav.js"></script>
         </div><!-- end h_menu4 -->
         <div class="clear"></div>
     </div>

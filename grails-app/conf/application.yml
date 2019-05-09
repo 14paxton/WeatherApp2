@@ -141,3 +141,13 @@ openweather:
     appid: 097e124b838ecac32ee6299a03694e0d
     cityName: London
     countryCode: uk
+
+
+auth0:
+domain: bpax-tplus.auth0.com
+clientId: 5u2G5k12AtXVrHxJBtQ3e6JnJkB5q5x3
+clientSecret: JwTI9bUhDkQhX_gbkVK_FByaygrqvPl4D6gcTHtcAAzQykVqdbOoz1azeufiZriK
+onLogoutRedirectTo: /login
+loginRedirectOnFail: /login
+loginRedirectOnSuccess: /ActiveUser/
+loginCallback: /callback

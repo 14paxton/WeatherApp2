@@ -1,6 +1,8 @@
 
 $(document).ready( function () {
-    $('#location_table').DataTable();
+    $('#location_table').DataTable({
+
+    });
 } );
 
 

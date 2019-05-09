@@ -5,27 +5,23 @@
     <meta name="layout" content="standard"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>YourWeather</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
     <asset:javascript src="application.js"/>
 
   <g:if test="${lang as String == 'es'}">
-  %{-- custom spanish script for datatable--}%
+   custom spanish script for datatable
       <asset:javascript src="spanishDataTable.js"/>
   </g:if>
     <g:else>
-    %{-- custom script for datatable--}%
         <asset:javascript src="dataTable.js"/>
     </g:else>
 
 
 
 
-
     <script type="text/javascript" charset="utf8" src="https:////cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
     <g:javascript>
@@ -34,12 +30,9 @@
         %{--var thisList =   <g:applyCodec encodeAs="Raw">  ${jsonList} </g:applyCodec>--}%
 
         $(document).ready( function() {
-    function log( message ) {
-      $( "<div>" ).text( message ).prependTo( "#log" );
-      $( "#log" ).scrollTop( 0 );
-    }
 
-    var listJSON ;
+
+     var listJSON ;
 
     $.ajax( {
     url: "${g.createLink(controller: 'activeUser', action: 'getLocationChoiceList')}",
@@ -53,7 +46,14 @@
     }); //end ajax call
 
 
-    $( "#cityList" ).autocomplete({
+
+
+            function log( message ) {
+      $( "<div>" ).text( message ).prependTo( "#log" );
+      $( "#log" ).scrollTop( 0 );
+    }
+
+        $( "#cityList" ).autocomplete({
       source: function(request, response) {
      var results = $.ui.autocomplete.filter( listJSON,
          request.term);
@@ -65,13 +65,10 @@
            log( "Selected: " + ui.item.value + " aka " + ui.item.id );
          }
        });
-     } );
-       </g:javascript>
 
 
-    <g:javascript type="text/javascript">
-    $(document).ready(function(){
-    $("button.btn-primary").click(function(){
+
+    $("#getCurrentWeather").click(function(){
     var city = document.getElementById('cityList').value;
     $.ajax( {
     url: "${g.createLink( controller:'activeUser', action:'getCurrentWeather')}" ,
@@ -82,9 +79,22 @@
     }  // end success function
     }); //end ajax call
     }); //end click function
-    }); //end ready function
-    </g:javascript>
 
+
+
+
+   /* $("#showLocations").click(function() {
+
+        $('#location_table').DataTable();
+    })
+
+
+*/
+
+
+     } ); //end Document ready
+
+    </g:javascript>
 
 
 </head>
@@ -111,7 +121,7 @@
 
     <div>
         <g:message code="choose.your.location" /> <input type="text" name="cityChoice" id="cityList" class="search_input" placeholder="${message(code:"choose.country")}" required="required"  >
-        <button class="btn btn-primary" type="button">Submit </button>
+        <button class="btn btn-white btn-margin-right-5-md btn-inline-to-block margin-top-10 btn-focus-white" id="getCurrentWeather" type="button">Submit </button>
         <div id="curWeather" style="float: right">
 
 
@@ -127,17 +137,53 @@
 
 
 
+        <g:if test="${locationList}">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#list-location" id="showLocations"  type="button">Your Locations</button>
+        </g:if>
 
 
 
+      %{--      <div class="modal fade" id="list-location" role="dialog">
+                <div clas="modal-dialog modal-xlg">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+
+                    <h1><g:message code="your.saved.locations" /></h1>
+                    <table id="location_table" class="display compact" style="width:99%;">
+                        <thead>
+                        <tr>
+                            <th><g:message code="city" /></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <g:each in="${locationList}" var="loc">
+                            <tr>
+
+                                <td><a href="${createLink(controller: "ActiveUser",  action: 'showSavedLocationWeather', params: [locationURL: loc.fiveDayWeatherCall])}">${loc.city.cityName}</a></td>
+                                <td><a href="${createLink(controller: 'Location',  action: 'index', id: loc.id)}">JSON</a></td>
+
+                                <td><g:form controller="location" action="delete" id="${loc.id}" method="DELETE">
+                                    <input class="btn btn-primary" type="submit" value="${message(code:"delete.location")}" />
+                                </g:form></td>
+
+                            </tr>
+                        </g:each>
+                        </tbody>
+                    </table>
+
+                </div>
 
 
 
+                </div>
+            </div>--}%
 
 
+%{--DataTable with info about saved locations--}%
 
-
-    <g:if test="${locationList}">
             <div id="list-location" class="content scaffold-list" >
                 <h1><g:message code="your.saved.locations" /></h1>
                 <table id="location_table" class="display compact" style="width:99%;">
@@ -164,7 +210,7 @@
                 </tbody>
             </table>
             </div>
-    </g:if>
+
 
     </section>
 </div>
@@ -172,7 +218,7 @@
 
 
 
-
+%{--use javascript to asych with the weather api--}%
 %{--<g:javascript>
 
     /*jslint browser:true */

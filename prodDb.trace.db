@@ -1,0 +1,6 @@
+2019-04-24 10:56:38 jdbc[7]: exception
+org.h2.jdbc.JdbcSQLException: Table "CITY" not found; SQL statement:
+select distinct this_.city_name as y0_, this_.country_id as y1_, this_.geonameid as y2_ from city this_ [42102-197]
+2019-04-24 11:01:00 jdbc[7]: exception
+org.h2.jdbc.JdbcSQLException: Table "CITY" not found; SQL statement:
+select distinct this_.city_name as y0_, this_.country_id as y1_, this_.geonameid as y2_ from city this_ [42102-197]
