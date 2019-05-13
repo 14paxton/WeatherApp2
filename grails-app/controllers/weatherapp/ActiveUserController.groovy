@@ -150,8 +150,36 @@ class ActiveUserController {
 
     def test(){
 
+        def currentUser = springSecurityService.currentUser
+        def data = [:]
+        def json = [[:]]
+
+        def locationList = Location.findAllByUser(currentUser, [cache: true])
+
+        //def i = 0
+
+        locationList.each {it -> json << ["id" : it.id , "city" : it.city.cityName]}
+        json.remove(0)
+
+        //data.put('data', locationList[1])
+
+        /*def json = [
+                ["id": "Ram",
+                 "age": "21",
+                 "sex": "Male",
+                 "occupation": "Doctor"]
+
+                ]
+
+        json << ["id": "Ford",
+                  "age": "21",
+                  "sex": "Male",
+                  "occupation": "Doctor"]*/
 
 
+        data.put("data", json)
+
+        render data as JSON
 
     }
 
