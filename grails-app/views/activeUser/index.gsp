@@ -95,7 +95,9 @@
                 },
         columns: [
             {data: 'id'},
-            {data: 'city'}
+            {data: 'city'},
+            {data: null,
+            defaultContent: '<button class="btn btn-primary" type="submit" >${message(code:"delete.location")}</button>'}
         ]
 
         } );
@@ -165,6 +167,7 @@
             <tr>
                 <th>id</th>
                 <th>city</th>
+                <th>delete</th>
 
             </tr>
             </thead>
